@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interviewapp/interviewListPage/LoginPage.dart';
-import 'package:provider/provider.dart';
+import 'package:interviewapp/interviewListPage/loginPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,6 +44,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       body: FutureBuilder(
         future: _initializeFirebase(),
         builder: (context,snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return const CircularProgressIndicator();
+          }
          if(snapshot.connectionState == ConnectionState.done){
            return const LoginPage();
          }
@@ -52,7 +54,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
            child: CircularProgressIndicator(),
          );
         }
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
