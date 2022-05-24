@@ -3,50 +3,54 @@ class InterviewBean {
   String? email;
   String? studies;
   String? experience;
+  String? skills;
   String? prohibitionPeriod;
   String? mobileNum;
   String? gender;
-  bool? workplace;
-  String? lpg;
-  bool? isPrimaryAddress;
+  String? expectedLpg;
+  String? currentLpg;
+  bool? workPlaceOption;
 
   InterviewBean(
       {this.name,
-        this.email,
-        this.studies,
-        this.experience,
-        this.prohibitionPeriod,
-        this.mobileNum,
-        this.gender,
-        this.workplace,
-        this.lpg,
-        this.isPrimaryAddress});
+      this.email,
+      this.studies,
+      this.experience,
+      this.skills,
+      this.prohibitionPeriod,
+      this.mobileNum,
+      this.gender,
+      this.expectedLpg,
+      this.currentLpg,
+      this.workPlaceOption});
 
   InterviewBean.fromJson(Map<String, dynamic> json) {
-    name = json["addressLine1"] != null ? json["addressLine1"] : "";
-    email = json["addressLine2"] != null ? json["addressLine2"] : "";
-    studies = json["addressLine3"] != null ? json["addressLine3"] : "";
-    experience = json["city"] != null ? json["city"] : "";
-    prohibitionPeriod = json["state"] != null ? json["state"] : "";
-    mobileNum = json["pin"] != null ? json["pin"] : "";
-    gender = json["country"] != null ? json["country"] : "";
-    workplace = json["district"] != null ? json["district"] : "";
-    lpg = json["geoPoint"] != null ? json["geoPoint"] : "";
-    isPrimaryAddress = json["isPrimaryAddress"] != null ? json["isPrimaryAddress"] : false;
+    name = json["name"] != null ? json["name"] : "";
+    email = json["email"] != null ? json["email"] : "";
+    studies = json["studies"] != null ? json["studies"] : "";
+    experience = json["experience"] != null ? json["experience"] : "";
+    skills = json["skills"] != null ? json["skills"] : "";
+    prohibitionPeriod = json["prohibitionPeriod"] != null ? json["prohibitionPeriod"] : "";
+    mobileNum = json["mobileNum"] != null ? json["mobileNum"] : "";
+    gender = json["gender"] != null ? json["gender"] : "";
+    expectedLpg = json["expectedLpg"] != null ? json["expectedLpg"] : "";
+    currentLpg = json["currentLpg"] != null ? json["currentLpg"] : "";
+    workPlaceOption = json["workPlaceOption"] != null ? json["workPlaceOption"] : false;
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["addressLine1"] = name;
-    map["addressLine2"] = email;
-    map["addressLine3"] = studies;
-    map["city"] = experience;
-    map["state"] = prohibitionPeriod;
-    map["pin"] = mobileNum;
-    map["country"] = gender;
-    map["district"] = workplace;
-    map["geoPoint"] = lpg;
-    map["isPrimaryAddress"] = isPrimaryAddress;
+    map["name"] = name;
+    map["email"] = email;
+    map["studies"] = studies;
+    map["experience"] = experience;
+    map["skills"] = skills;
+    map["prohibitionPeriod"] = prohibitionPeriod;
+    map["mobileNum"] = mobileNum;
+    map["gender"] = gender;
+    map["expectedLpg"] = expectedLpg;
+    map["currentLpg"] = currentLpg;
+    map["workPlaceOption"] = workPlaceOption;
     return map;
   }
 }
