@@ -1,14 +1,29 @@
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:interviewapp/InterviewJson.dart';
+import 'package:interviewapp/listScreen.dart';
 
 class HrReviewScree extends StatefulWidget {
-  const HrReviewScree({Key? key}) : super(key: key);
+  InterviewBean interviewBean;
+  String commonKey;
+   HrReviewScree({required this.interviewBean,required this.commonKey,Key? key}) : super(key: key);
 
   @override
   _HrReviewScreeState createState() => _HrReviewScreeState();
 }
 
 class _HrReviewScreeState extends State<HrReviewScree> {
+  DatabaseReference? _interviewRef;
+  final _feedController = TextEditingController();
+  final _hrReviewController = TextEditingController();
+  bool? isApproved;
+
+  @override
+  void initState() {
+    _interviewRef = FirebaseDatabase.instance.reference().child('interview');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,83 +32,135 @@ class _HrReviewScreeState extends State<HrReviewScree> {
       ),
       body: Padding(
       padding: const EdgeInsets.only(left: 7),
-      child: Column(
-        children: [
-          candidateDetailTile(title: "Name",value: "Pranitha Sandupatla"),
-          candidateDetailTile(title: "Age",value: "23"),
-          candidateDetailTile(title: "DOB",value: "20-7-1999"),
-          candidateDetailTile(title: "Gender",value: "Female"),
-          candidateDetailTile(title: "email",value: "Pranitha@gmail.com"),
-          candidateDetailTile(title: "Contact Number",value: "9982472356"),
-          candidateDetailTile(title: "Work Option",value: "Work From Home(WFH)"),
-          candidateDetailTile(title: "Current LPG",value: "2.5L"),
-          candidateDetailTile(title: "Expected LPG",value: "4.5L"),
-          candidateDetailTile(title: "Notice Period",value: "15 Days"),
-          candidateDetailTile(title: "Education  ",value: "B.tech(Teegala KrishnaReddy College of Pharmacy"),
-          candidateDetailTile(title: "Tech.Skills",value: "Java,Flutter,Dart,swagger,postman,jira,github,Blocs,RiverPod ,Firebase"),
-          textFieldWidget(
-              title: "Interview feedback",
-              hintText: "Enter Interview feedback",
-              keyboardType: TextInputType.text,
-              height: 65,
-              width: MediaQuery.of(context).size.width),
-          textFieldWidget(
-              title: "Hr Review",
-              hintText: "Enter Hr Review",
-              keyboardType: TextInputType.text,
-              height: 55,
-              width: MediaQuery.of(context).size.width),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 100,
-                height: 40,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            candidateDetailTile(title: "Name",value: widget.interviewBean.name ??""),
+            candidateDetailTile(title: "Age",value: widget.interviewBean.age ??""),
+            candidateDetailTile(title: "DOB",value: widget.interviewBean.dob ??""),
+            candidateDetailTile(title: "Gender",value: widget.interviewBean.gender ??""),
+            candidateDetailTile(title: "email",value: widget.interviewBean.email ??""),
+            candidateDetailTile(title: "Contact Number",value: widget.interviewBean.mobileNum ??""),
+            candidateDetailTile(title: "Work Option",value: "Work From Home(WFH)"),
+            candidateDetailTile(title: "Current LPG",value: widget.interviewBean.currentLpg ??""),
+            candidateDetailTile(title: "Expected LPG",value: widget.interviewBean.expectedLpg ??""),
+            candidateDetailTile(title: "Notice Period",value: widget.interviewBean.prohibitionPeriod ??""),
+            candidateDetailTile(title: "Education  ",value: widget.interviewBean.studies ??""),
+            candidateDetailTile(title: "Tech.Skills",value: widget.interviewBean.skills ??""),
+            widget.interviewBean.status =="In-Review"? Column(
+              children: [
+                textFieldWidget(
+                    controller: _feedController,
+                    title: "Interview feedback",
+                    hintText: "Enter Interview feedback",
+                    keyboardType: TextInputType.text,
+                    height: 65,
+                    width: MediaQuery.of(context).size.width),
+                textFieldWidget(
+                    controller: _hrReviewController,
+                    title: "Hr Review",
+                    hintText: "Enter Hr Review",
+                    keyboardType: TextInputType.text,
+                    height: 55,
+                    width: MediaQuery.of(context).size.width),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 40,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: const [
+                              Text("Approve", style: TextStyle(fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              isApproved = true;
+                            });
+                            if(_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty){
+                              _updateInterviewData();
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
+                            }
+                          }),
                     ),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.center,
-                      children: const [
-                        Text("Approve", style: TextStyle(fontWeight: FontWeight.w500)),
-                      ],
+                    const SizedBox(width: 20,),
+                    SizedBox(
+                      width: 110,
+                      height: 40,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: const [
+                              Text("Reject", style: TextStyle(fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              isApproved = false;
+                            });
+                            if(_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty){
+                              _updateInterviewData();
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
+                            }
+                          }),
                     ),
-                    onPressed: () async {
-                    }),
-              ),
-              const SizedBox(width: 20,),
-              SizedBox(
-                width: 110,
-                height: 40,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.center,
-                      children: const [
-                        Text("Reject", style: TextStyle(fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                    onPressed: () async {
-                    }),
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ):
+                Column(
+                  children: [
+                    candidateDetailTile(title: "Interview FeedBack",value: widget.interviewBean.feedback ??""),
+                    candidateDetailTile(title: "HR Review",value: widget.interviewBean.hrReview ??""),
+                    candidateDetailTile(title: "Status",value: widget.interviewBean.status ??""),
+                  ],
+                ),
+          ],
+        ),
       ),
       )
     );
+  }
+
+  void _updateInterviewData() {
+    String? status =  isApproved ==true?"Approved":"Rejected";
+    String? feedback =_feedController.text;
+    String? hrReview =_hrReviewController.text;
+
+
+    Map<String,String> interview ={
+      'status':status,
+      'feedback':feedback,
+      'hrReview':hrReview
+
+    };
+
+    _interviewRef!.child(widget.commonKey).update(interview).then((value) =>  Navigator.push(
+        context, MaterialPageRoute(builder: (context) =>  const ListScreen())));
+    setState(() {});
+
   }
 
   Widget candidateDetailTile({required String title,required String value}){

@@ -1,19 +1,18 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/radio.dart';
-import 'package:interviewapp/InterviewJson.dart';
+import 'package:interviewapp/database.dart';
 import 'package:interviewapp/listScreen.dart';
 
 class CreateCandidateScreen extends StatefulWidget {
-   List<InterviewBean>? interviewList ;
-   ValueChanged<List<InterviewBean>> onChanged;///onchanged
-   CreateCandidateScreen({required this.interviewList,required this.onChanged,Key? key}) : super(key: key);
+   CreateCandidateScreen({Key? key}) : super(key: key);
 
   @override
   _CreateCandidateScreenState createState() => _CreateCandidateScreenState();
 }
 
 class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
-
+  final interviewDao = InterviewDao();
   int selectedGender = 1;
   int selectedWorkPlace = 1;
   final _nameController = TextEditingController();
@@ -28,6 +27,14 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   final _emailController = TextEditingController();
   final _contactNumberController = TextEditingController();
 
+  DatabaseReference? _interviewRef;
+
+  @override
+  void initState() {
+    _interviewRef =
+    FirebaseDatabase.instance.reference().child('interview');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +126,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         title: "Contact Number",
                         controller: _contactNumberController,
                         hintText: "Enter Contact Number",
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         width: MediaQuery.of(context).size.width),
                     textFieldWidget(
                         title: "Education",
@@ -172,7 +179,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       ),
                     ),*/
                     textFieldWidget(
-                        title: "Experience",
+                        title: "Experience(months)",
                         controller: _expirenceController,
                         hintText: "Enter Experience Details",
                         keyboardType: TextInputType.text,
@@ -181,10 +188,10 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       children: [
                         textFieldWidget(
                           controller: _currentLpgController,
-                            title: "Current LPG", hintText: "enter Current LPG", keyboardType: TextInputType.number, width: MediaQuery.of(context).size.width / 2 - 20),
+                            title: "Current LPG(L)", hintText: "enter Current LPG", keyboardType: TextInputType.number, width: MediaQuery.of(context).size.width / 2 - 20),
                         textFieldWidget(
                           controller: _expectedLpgController,
-                            title: "Expected LPG",
+                            title: "Expected LPG(L)",
                             hintText: "Enter Expected LPG",
                             keyboardType: TextInputType.number,
                             width: MediaQuery.of(context).size.width / 2),
@@ -219,29 +226,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     ],
                   ),
                   onPressed: ()  {
-                    InterviewBean interviewListBean = new InterviewBean();
-                      if (_nameController.text.isNotEmpty && _emailController.text.isNotEmpty
-                          && _contactNumberController.text.isNotEmpty && _noticePeriodController.text.isNotEmpty) {
-                        interviewListBean
-                          ..email =_emailController.text
-                          ..name = _nameController.text
-                          ..gender =selectedGender ==1? "Male":"Female"
-                          ..currentLpg =_currentLpgController.text
-                          ..expectedLpg =_expectedLpgController.text
-                          ..experience = _expirenceController.text
-                          ..prohibitionPeriod =_noticePeriodController.text
-                          ..studies =_educationController.text
-                          ..mobileNum =_contactNumberController.text
-                          ..skills =_skillsController.text;
-                        widget.interviewList!.add(interviewListBean);
-                        widget.interviewList = widget.interviewList!.toSet().toList();
-                        widget.onChanged(widget.interviewList!);
-                        _showDialog();
-                        print(interviewListBean.toJson());
-                        print(widget.interviewList!.length);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter Candidate Details..')));
-                      }
+                    _saveInterviewData();
+                    _showDialog();
                   }),
             ),
           ],
@@ -323,6 +309,40 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       }
       return 'Enter a Valid Email Address';
     }}
+
+  void _saveInterviewData() {
+    String? name = _nameController.text;
+    String? email = _emailController.text;
+    String? prohibitionPeriod = _noticePeriodController.text;
+    String? mobileNum =  _contactNumberController.text;
+    String? age = _ageController.text;
+    String? gender =selectedGender ==1?"Male":"Female";
+    String? dob = _dobController.text;
+    String? currentLpg = _currentLpgController.text;
+    String? expectedLpg = _expectedLpgController.text;
+    String? skills = _skillsController.text;
+    String? studies = _educationController.text;
+    String? status = "In-Review";
+
+    Map<String,String> interview ={
+      'name':name,
+      'email':email,
+      'prohibitionPeriod':prohibitionPeriod,
+      'mobileNum':mobileNum,
+      'age':age,
+      'gender':gender,
+      'dob':dob,
+      'currentLpg':currentLpg,
+      'expectedLpg':expectedLpg,
+      'skills':skills,
+      'studies':studies,
+      'status':status
+    };
+
+    _interviewRef!.push().set(interview);
+    setState(() {});
+
+  }
 
   void _showDialog() {
     showDialog(

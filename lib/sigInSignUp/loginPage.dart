@@ -36,6 +36,14 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  final RegExp _emailRegExp = RegExp(
+    r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+  );
+
+  bool _isEmailValid(String email) {
+    return _emailRegExp.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +120,6 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       onPressed: () async {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ListScreen()));
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(duration: Duration(seconds: 2), content: Text('Loading ,Please Wait...')));
                         User? user = await loginUsingEmailPassword(email: _username.text.trim(), password: _password.text.trim(), context: context);
