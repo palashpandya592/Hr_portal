@@ -1,11 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/radio.dart';
-import 'package:interviewapp/database.dart';
-import 'package:interviewapp/listScreen.dart';
+import 'package:interviewapp/interviewScreen/interviewCandidateListPage.dart';
+import 'package:interviewapp/repository/databaseRepository.dart';
 
 class CreateCandidateScreen extends StatefulWidget {
-   CreateCandidateScreen({Key? key}) : super(key: key);
+  const CreateCandidateScreen({Key? key}) : super(key: key);
 
   @override
   _CreateCandidateScreenState createState() => _CreateCandidateScreenState();
@@ -31,10 +31,10 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
 
   @override
   void initState() {
-    _interviewRef =
-    FirebaseDatabase.instance.reference().child('interview');
+    _interviewRef = FirebaseDatabase.instance.reference().child('interview');
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +45,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height -130,
+            SingleChildScrollView(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     textFieldWidget(
                         title: "Candidate Name",
                         controller: _nameController,
@@ -62,7 +63,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         textFieldWidget(
                             title: "Age",
                             controller: _ageController,
-                            hintText: "enter Age", keyboardType: TextInputType.number, width: MediaQuery.of(context).size.width / 2 - 20),
+                            hintText: "enter Age",
+                            keyboardType: TextInputType.number,
+                            width: MediaQuery.of(context).size.width / 2 - 20),
                         textFieldWidget(
                             title: "Date of Birth",
                             controller: _dobController,
@@ -75,16 +78,21 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
-                          child: Text("Gender :",
+                          child: Text(
+                            "Gender :",
                             style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
                             textAlign: TextAlign.start,
-                            overflow: TextOverflow.ellipsis,),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         SizedBox(
                           width: 140,
                           child: ListTile(
                             title: Text("Male",
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
                             leading: Radio(
                               value: 1,
                               groupValue: selectedGender,
@@ -101,7 +109,10 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                           width: 150,
                           child: ListTile(
                             title: Text("Female",
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
                             leading: Radio(
                               value: 2,
                               groupValue: selectedGender,
@@ -142,42 +153,50 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         keyboardType: TextInputType.text,
                         height: 70,
                         width: MediaQuery.of(context).size.width),
-                   /* Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text("Work Option :",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "Work Option:",
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                              value: 1,
+                              groupValue: selectedWorkPlace,
+                              onChanged: (int? value) {
+                                setState(() {
+                                  selectedWorkPlace = value!;
+                                });
+                              },
+                              activeColor: Colors.blue,
+                            ),
+                            const Text('WorkFromOffice'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                              value: 2,
+                              groupValue: selectedWorkPlace,
+                              onChanged: (int? value) {
+                                setState(() {
+                                  selectedWorkPlace = value!;
+                                });
+                              },
+                              activeColor: Colors.blue,
+                            ),
+                            const Text('W.F.Home'),
+                          ],
+                        ),
+                      ],
                     ),
-                    ListTile(
-                      title: Text("Work From Home(WFH)",
-                     style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
-                      leading: Radio(
-                        value: 1,
-                        groupValue: selectedWorkPlace,
-                        onChanged: (int? value) {
-                          setState(() {
-                            selectedWorkPlace = value!;
-                          });
-                        },
-                        activeColor: Colors.blue,
-                      ),
-                    ),
-                    ListTile(
-                      title: Text("Work From Office(WFO)",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: selectedWorkPlace,
-                        onChanged: (int? value) {
-                          setState(() {
-                            selectedWorkPlace = value!;
-                            print(selectedWorkPlace);
-                          });
-                        },
-                        activeColor: Colors.blue,
-                      ),
-                    ),*/
                     textFieldWidget(
                         title: "Experience(months)",
                         controller: _expirenceController,
@@ -187,10 +206,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     Row(
                       children: [
                         textFieldWidget(
-                          controller: _currentLpgController,
-                            title: "Current LPG(L)", hintText: "enter Current LPG", keyboardType: TextInputType.number, width: MediaQuery.of(context).size.width / 2 - 20),
+                            controller: _currentLpgController,
+                            title: "Current LPG(L)",
+                            hintText: "enter Current LPG",
+                            keyboardType: TextInputType.number,
+                            width: MediaQuery.of(context).size.width / 2 - 20),
                         textFieldWidget(
-                          controller: _expectedLpgController,
+                            controller: _expectedLpgController,
                             title: "Expected LPG(L)",
                             hintText: "Enter Expected LPG",
                             keyboardType: TextInputType.number,
@@ -198,42 +220,63 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       ],
                     ),
                     textFieldWidget(
-                      controller: _noticePeriodController,
+                        controller: _noticePeriodController,
                         title: "Notice Period Duration",
                         hintText: "Enter Notice Period",
                         keyboardType: TextInputType.text,
                         width: MediaQuery.of(context).size.width),
-                     const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 20,
+                        height: 40,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              alignment: WrapAlignment.center,
+                              children: const [
+                                Text("Submit", style: TextStyle(fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                            onPressed: () {
+                              if(validateForm(context)){
+                                _saveInterviewData();
+                                _showDialog();
+                              }
+                            }),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 20,
-              height: 40,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: const [
-                      Text("Submit", style: TextStyle(fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                  onPressed: ()  {
-                    _saveInterviewData();
-                    _showDialog();
-                  }),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool validateForm(BuildContext context) {
+    if (_nameController.text.isEmpty && _ageController.text.isEmpty &&
+        _educationController.text.isEmpty &&_educationController.text.isEmpty && _skillsController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_emailController.text.isEmpty && _expirenceController.text.isEmpty &&
+        _currentLpgController.text.isEmpty && _expectedLpgController.text.isEmpty && _noticePeriodController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else {
+      return true;
+    }
   }
 
   Widget textFieldWidget(
@@ -247,7 +290,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       bool? isMandatory = false}) {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Container(
+      child: SizedBox(
         width: width ?? 200,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +298,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
-              child: Container(
+              child: SizedBox(
                 width: 280,
                 child: Text(
                   title!,
@@ -266,7 +309,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(2, 0.0, 2, 0.0),
+              padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
               child: Container(
                 width: width ?? 100,
                 height: height ?? 40,
@@ -274,25 +317,30 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Colors.grey.withOpacity(0.6)),
                 ),
-                child: TextField(
+                child: TextFormField(
                   maxLines: 100,
                   controller: controller,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Field Can't be Empty ";
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: hintText,
                     hintStyle: Theme.of(context).textTheme.caption!.copyWith(
                           color: Colors.grey.withOpacity(0.7),
                         ),
-                    contentPadding: EdgeInsets.only(left: 10, bottom: 10),
+                    contentPadding: const EdgeInsets.only(left: 10, bottom: 10),
                     border: InputBorder.none,
                   ),
                   onChanged: (val) {
-                    print(controller!.text.toString());
-                   // _emailOk = EmailValidator.validate(_email);
                     setState(() {});
                   },
                   keyboardType: keyboardType,
-                  textInputAction: TextInputAction.next,
                 ),
               ),
             ),
@@ -302,46 +350,41 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
-  String? validateEmail(String? value) {
-    if (value != null) {
-      if (value.length > 5 && value.contains('@') && value.endsWith('.com')) {
-        return null;
-      }
-      return 'Enter a Valid Email Address';
-    }}
+
 
   void _saveInterviewData() {
     String? name = _nameController.text;
     String? email = _emailController.text;
     String? prohibitionPeriod = _noticePeriodController.text;
-    String? mobileNum =  _contactNumberController.text;
+    String? mobileNum = _contactNumberController.text;
     String? age = _ageController.text;
-    String? gender =selectedGender ==1?"Male":"Female";
+    String? gender = selectedGender == 1 ? "Male" : "Female";
     String? dob = _dobController.text;
     String? currentLpg = _currentLpgController.text;
     String? expectedLpg = _expectedLpgController.text;
     String? skills = _skillsController.text;
     String? studies = _educationController.text;
     String? status = "In-Review";
+    String? workPlaceOption = selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
 
-    Map<String,String> interview ={
-      'name':name,
-      'email':email,
-      'prohibitionPeriod':prohibitionPeriod,
-      'mobileNum':mobileNum,
-      'age':age,
-      'gender':gender,
-      'dob':dob,
-      'currentLpg':currentLpg,
-      'expectedLpg':expectedLpg,
-      'skills':skills,
-      'studies':studies,
-      'status':status
+    Map<String, String> interview = {
+      'name': name,
+      'email': email,
+      'prohibitionPeriod': prohibitionPeriod,
+      'mobileNum': mobileNum,
+      'age': age,
+      'gender': gender,
+      'dob': dob,
+      'currentLpg': currentLpg,
+      'expectedLpg': expectedLpg,
+      'skills': skills,
+      'studies': studies,
+      'status': status,
+      'workPlaceOption': workPlaceOption,
     };
 
     _interviewRef!.push().set(interview);
     setState(() {});
-
   }
 
   void _showDialog() {
@@ -351,9 +394,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
         return AlertDialog(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
           title: const Icon(Icons.check_circle_outline_rounded, size: 70, color: Colors.green),
-          content:const Padding(
-            padding:  EdgeInsets.only(left: 10),
-            child:  Text("Registered Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          content: const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text("Registered Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           ),
           actions: <Widget>[
             Center(
@@ -363,7 +406,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                 textColor: Colors.white,
                 child: const Text('Done'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ListScreen()));
+                  navigateToInterviewListPage(context);
                 },
               ),
             ),
@@ -371,5 +414,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
         );
       },
     );
+  }
+  void navigateToInterviewListPage(BuildContext? context) {
+    Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));
   }
 }

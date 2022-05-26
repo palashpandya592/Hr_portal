@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interviewapp/SiginSignUp/loginPage.dart';
+import 'package:interviewapp/SiginSignUp/logInPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,25 +41,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: _initializeFirebase(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            else if(snapshot.connectionState == ConnectionState.none){
-              return const CircularProgressIndicator();
-            }
-            else if(snapshot.connectionState == ConnectionState.active){
-              return const CircularProgressIndicator();
-            }
-            else if (snapshot.connectionState == ConnectionState.done) {
-              return const LoginPage();
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
-    );
+        body: FutureBuilder(
+            future: _initializeFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return const LoginPage();
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }));
   }
 }

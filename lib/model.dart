@@ -14,7 +14,7 @@ class InterviewBean {
   String? expectedLpg;
   String? currentLpg;
   String? status;
-  bool? workPlaceOption;
+  String? workPlaceOption;
 
   InterviewBean(
       {this.name,
@@ -30,30 +30,30 @@ class InterviewBean {
       this.expectedLpg,
       this.currentLpg,
       this.status,
-        this.hrReview,
+      this.hrReview,
       this.feedback,
       this.workPlaceOption});
 
   InterviewBean.fromJson(Map<dynamic, dynamic> json) {
-    name = json["name"] != null ? json["name"] : "";
-    email = json["email"] != null ? json["email"] : "";
-    age = json["age"] != null ? json["age"] : "";
-    studies = json["studies"] != null ? json["studies"] : "";
-    experience = json["experience"] != null ? json["experience"] : "";
-    feedback = json["feedback"] != null ? json["feedback"] : "";
-    dob = json["dob"] != null ? json["dob"] : "";
-    status = json["status"] != null ? json["status"] : "";
-    skills = json["skills"] != null ? json["skills"] : "";
-    prohibitionPeriod = json["prohibitionPeriod"] != null ? json["prohibitionPeriod"] : "";
-    mobileNum = json["mobileNum"] != null ? json["mobileNum"] : "";
-    hrReview = json["hrReview"] != null ? json["hrReview"] : "";
-    gender = json["gender"] != null ? json["gender"] : "";
-    expectedLpg = json["expectedLpg"] != null ? json["expectedLpg"] : "";
-    currentLpg = json["currentLpg"] != null ? json["currentLpg"] : "";
-    workPlaceOption = json["workPlaceOption"] != null ? json["workPlaceOption"] : false;
+    name = json["name"] ?? "";
+    email = json["email"] ?? "";
+    age = json["age"] ?? "";
+    studies = json["studies"] ?? "";
+    experience = json["experience"] ?? "";
+    feedback = json["feedback"] ?? "";
+    dob = json["dob"] ?? "";
+    status = json["status"] ?? "";
+    skills = json["skills"] ?? "";
+    prohibitionPeriod = json["prohibitionPeriod"] ?? "";
+    mobileNum = json["mobileNum"] ?? "";
+    hrReview = json["hrReview"] ?? "";
+    gender = json["gender"] ?? "";
+    expectedLpg = json["expectedLpg"] ?? "";
+    currentLpg = json["currentLpg"] ?? "";
+    workPlaceOption = json["workPlaceOption"] ?? "";
   }
 
-  Map<dynamic, dynamic> toJson() {
+  Map toJson() {
     var map = <dynamic, dynamic>{};
     map["name"] = name;
     map["email"] = email;
