@@ -34,119 +34,143 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Text("HR-Interview App", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
                 const Text("SignUp to Your App", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 30),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.transparent, borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.black)),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.bodyText2,
-                      maxLines: 1,
-                      controller: _name,
-                      textAlign: TextAlign.left,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter UserName';
-                        } else {
-                          return null;
-                        }
-                      },
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: "UserName",
-                          icon: Icon(
-                            Icons.person,
-                            color: Colors.blue,
-                          )),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.transparent, borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.black)),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.bodyText2,
-                      maxLines: 1,
-                      controller: _emailController,
-                      textAlign: TextAlign.left,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.length > 4 && value.contains('@') && value.endsWith('.com')) {
-                          return null;
-                        } else {
-                          return 'Enter Valid EmailId';
-                        }
-                      },
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: "Email",
-                          icon: Icon(
-                            Icons.person,
-                            color: Colors.blue,
-                          )),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.transparent, borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.black)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.bodyText2,
-                      maxLines: 1,
-                      obscureText: true,
-                      controller: _password,
-                      textAlign: TextAlign.left,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.length < 4) {
-                          return 'weak Password';
-                        }
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: TextFormField(
+                    style: Theme.of(context).textTheme.bodyText2,
+                    maxLines: 1,
+                    controller: _name,
+                    textAlign: TextAlign.left,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter UserName';
+                      } else {
                         return null;
-                      },
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: "Password",
-                          icon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          )),
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'UserName',
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.account_circle,color: Colors.blue), //make the icon also change its color
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.transparent, borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.black)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.bodyText2,
-                      maxLines: 1,
-                      obscureText: true,
-                      controller: _conformPassword,
-                      textAlign: TextAlign.left,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.length < 4) {
-                          return 'weak Password';
-                        }
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: TextFormField(
+                    style: Theme.of(context).textTheme.bodyText2,
+                    maxLines: 1,
+                    controller: _emailController,
+                    textAlign: TextAlign.left,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.length > 4 && value.contains('@') && value.endsWith('.com')) {
                         return null;
-                      },
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: " Conform Password",
-                          icon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          )),
+                      } else {
+                        return 'Enter Valid EmailId';
+                      }
+                    },
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.account_circle,color: Colors.blue), //make the icon also change its color
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextFormField(
+                    style: Theme.of(context).textTheme.bodyText2,
+                    maxLines: 1,
+                    obscureText: true,
+                    controller: _password,
+                    textAlign: TextAlign.left,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.length < 4) {
+                        return 'weak Password';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.lock,color: Colors.blue), //make the icon also change its color
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextFormField(
+                    style: Theme.of(context).textTheme.bodyText2,
+                    maxLines: 1,
+                    obscureText: true,
+                    controller: _conformPassword,
+                    textAlign: TextAlign.left,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.length < 4) {
+                        return 'weak Password';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.lock,color: Colors.blue), //make the icon also change its color
                     ),
                   ),
                 ),

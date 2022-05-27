@@ -222,13 +222,12 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
               padding: const EdgeInsets.fromLTRB(2, 0.0, 2, 0.0),
               child: Container(
                 width: width ?? 100,
-                height: height ?? 40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Colors.grey.withOpacity(0.6)),
                 ),
                 child: TextFormField(
-                  maxLines: 100,
+                  maxLines: 4,
                   controller: controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -240,12 +239,21 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                   textInputAction: TextInputAction.next,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: Theme.of(context).textTheme.caption!.copyWith(
-                          color: Colors.grey.withOpacity(0.7),
-                        ),
-                    contentPadding: EdgeInsets.only(left: 10, bottom: 10),
-                    border: InputBorder.none,
+                    hintText: 'Password',
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    prefixIcon: Icon(Icons.lock,color: Colors.blue,size: 23,), //make the icon also change its color
                   ),
                   onChanged: (val) {
                     print(controller!.text.toString());

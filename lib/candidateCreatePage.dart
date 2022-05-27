@@ -53,6 +53,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       height: 10,
                     ),
                     textFieldWidget(
+                        maxLines: false,
                         title: "Candidate Name",
                         controller: _nameController,
                         hintText: "Enter Candidate Name",
@@ -61,12 +62,14 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     Row(
                       children: [
                         textFieldWidget(
+                            maxLines: false,
                             title: "Age",
                             controller: _ageController,
                             hintText: "enter Age",
                             keyboardType: TextInputType.number,
                             width: MediaQuery.of(context).size.width / 2 - 20),
                         textFieldWidget(
+                            maxLines: false,
                             title: "Date of Birth",
                             controller: _dobController,
                             hintText: "Enter Date of Birth",
@@ -128,18 +131,21 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       ],
                     ),
                     textFieldWidget(
+                        maxLines: false,
                         title: "Email",
                         controller: _emailController,
                         hintText: "Enter Email",
                         keyboardType: TextInputType.emailAddress,
                         width: MediaQuery.of(context).size.width),
                     textFieldWidget(
+                        maxLines: false,
                         title: "Contact Number",
                         controller: _contactNumberController,
                         hintText: "Enter Contact Number",
                         keyboardType: TextInputType.number,
                         width: MediaQuery.of(context).size.width),
                     textFieldWidget(
+                        maxLines: true,
                         title: "Education",
                         controller: _educationController,
                         hintText: "Enter Education Details",
@@ -147,6 +153,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         height: 50,
                         width: MediaQuery.of(context).size.width),
                     textFieldWidget(
+                        maxLines: true,
                         title: "Technical Skills",
                         controller: _skillsController,
                         hintText: "Enter Technical Skills",
@@ -198,6 +205,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       ],
                     ),
                     textFieldWidget(
+                        maxLines: false,
                         title: "Experience(months)",
                         controller: _expirenceController,
                         hintText: "Enter Experience Details",
@@ -206,12 +214,14 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     Row(
                       children: [
                         textFieldWidget(
+                            maxLines: false,
                             controller: _currentLpgController,
                             title: "Current LPG(L)",
                             hintText: "enter Current LPG",
                             keyboardType: TextInputType.number,
                             width: MediaQuery.of(context).size.width / 2 - 20),
                         textFieldWidget(
+                            maxLines: false,
                             controller: _expectedLpgController,
                             title: "Expected LPG(L)",
                             hintText: "Enter Expected LPG",
@@ -220,6 +230,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       ],
                     ),
                     textFieldWidget(
+                        maxLines: false,
                         controller: _noticePeriodController,
                         title: "Notice Period Duration",
                         hintText: "Enter Notice Period",
@@ -285,6 +296,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       String? hintText,
       double? width,
       double? height,
+      bool? maxLines =false,
       String? title,
       String? imageUrl,
       bool? isMandatory = false}) {
@@ -310,15 +322,10 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-              child: Container(
-                width: width ?? 100,
-                height: height ?? 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey.withOpacity(0.6)),
-                ),
+              child: SizedBox(
+                width: width ?? 200,
                 child: TextFormField(
-                  maxLines: 100,
+                  maxLines: maxLines ==false ?1:4,
                   controller: controller,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -332,10 +339,21 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                   decoration: InputDecoration(
                     hintText: hintText,
                     hintStyle: Theme.of(context).textTheme.caption!.copyWith(
-                          color: Colors.grey.withOpacity(0.7),
-                        ),
-                    contentPadding: const EdgeInsets.only(left: 10, bottom: 10),
-                    border: InputBorder.none,
+                      color: Colors.grey.withOpacity(0.7),
+                    ),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ), //make the icon also change its color
                   ),
                   onChanged: (val) {
                     setState(() {});
