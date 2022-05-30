@@ -1,11 +1,17 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interviewapp/SiginSignUp/logInPage.dart';
 import 'package:interviewapp/candidateCreatePage.dart';
 import 'package:interviewapp/candidateReviewPage.dart';
+import 'package:interviewapp/interviewScreen/interviewBloc/interview_bloc.dart';
+import 'package:interviewapp/interviewScreen/interviewBloc/interview_state.dart';
 import 'package:interviewapp/model.dart';
 import 'package:interviewapp/repository/databaseRepository.dart';
+
+import 'interviewBloc/interview_event.dart';
 
 class InterViewerCandidatePage extends StatefulWidget {
   const InterViewerCandidatePage({Key? key}) : super(key: key);
@@ -19,9 +25,14 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
   ScrollController? _scrollController;
 
+  InterviewBloc? _interviewBloc;
+  var snapshot;
+
   final interviewDao = InterviewDao();
 
   Color color1 = HexColor("#ADD8E6");
+
+  Map<dynamic,dynamic>? exist;
 
   @override
   void initState() {
@@ -54,13 +65,36 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
         ],
         title: const Text("InterViewList Screen"),
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: _getInterviewList(),
+      body:  BlocProvider(
+        create: (context) => InterviewBloc(InterviewLoading())..add(GetInterviewList()),
+        child: Builder(builder: (BuildContext context) {
+          _interviewBloc = BlocProvider.of<InterviewBloc>(context);
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: BlocBuilder<InterviewBloc, InterviewState>(builder: (context, state) {
+                 if (state is InterviewLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is InterViewSuccess) {
+                  exist = state.data;
+                  return  _getInterviewList();
+                } else if (state is InterViewFailure) {
+                  return Text(state.error ?? "Something Went Wrong");
+                } else {
+                  return Container();
+                }
+              }),
+            ),
+          );
+        }),
       ),
       floatingActionButton: floatingButton(),
     );
+  }
+
+  Widget CircularWidget(BuildContext context){
+    return const Center(child: CircularProgressIndicator());
   }
 
   Widget? floatingButton() {

@@ -1,43 +1,42 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interviewapp/interviewScreen/interviewBloc/interview_event.dart';
 import 'package:interviewapp/interviewScreen/interviewBloc/interview_state.dart';
+import 'package:interviewapp/model.dart';
 import 'package:interviewapp/repository/interview_repository.dart';
 import 'package:interviewapp/sigInSignUp/blocs/authBloc/auth_events.dart';
 
-class InterviewBloc extends Bloc<AuthenticationEvent, InterviewState> {
-  InterviewRepository _interviewRepository;
-  StreamSubscription? _streamSubscription;
-
-  InterviewBloc({required InterviewRepository interviewRepository})
-      : _interviewRepository = interviewRepository,
-        super(InterviewLoading());
+class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
+  InterviewBloc(InterviewLoading initialState) : super(initialState);
 
   @override
-  Stream<InterviewState> mapEventToState(AuthenticationEvent event) async* {
-    /* if(event is LoadInterviewList){
-      yield* _mapLoadInterviewerToSate();
-    }*/
-    /* if(event is GetInterviewList){
-      yield* _mapGetInterviewerToSate(event);
-    }
-  }*/
-/*   Stream<InterviewState> _mapLoadInterviewerToSate() async*{
-     _streamSubscription!.cancel();
-     _streamSubscription =_interviewRepository.getAllInterviewList().listen((interview) =>add(
-         GetInterviewList(interview),
-     ),);
-   }*/
+  Stream<InterviewState> mapEventToState(InterviewEvent event) async* {
+    List<InterviewBean>? interviewList;
+    Map<dynamic,dynamic>? exist;
+    final firestoreInstance = FirebaseFirestore.instance;
 
-    Stream<InterviewState> _mapGetInterviewerToSate(GetInterviewList event) async* {
-      yield InterViewSuccess(interViewList: event.interview);
-    }
-  }
-
-/*if(event is GetInterviewList){
+    if (event is GetInterviewList) {
       yield InterviewLoading();
-      _streamSubscription!.cancel();
-  }*/
+      try {
+        print("1111111111111");
+        yield InterviewLoading();
+        print("2222222222");
+        var snapshot  = FirebaseDatabase.instance.reference().child('interview').orderByValue().once().
+        then((DataSnapshot snapshot) async{
+          exist =snapshot.value;
+          print("exist${exist!.values}");
+           }
+          );
+        print("33333333");
+        yield InterViewSuccess(data: exist);
+      } catch (e) {
+        yield InterViewFailure(error: e.toString());
+      }
+    }
 
-}
+  }
+  }

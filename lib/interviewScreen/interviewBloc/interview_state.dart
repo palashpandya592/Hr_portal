@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:interviewapp/model.dart';
 
 abstract class InterviewState extends Equatable {
@@ -19,12 +20,12 @@ class InterviewLoading extends InterviewState {
 }
 
 class InterViewSuccess extends InterviewState {
-  final List<InterviewBean>? interViewList;
+  Map<dynamic,dynamic>? data;
 
-  const InterViewSuccess({this.interViewList});
+   InterViewSuccess({this.data});
 
   @override
-  List<Object?> get props => [interViewList!];
+  List<Object?> get props => [data];
 }
 
 class InterViewFailure extends InterviewState {
