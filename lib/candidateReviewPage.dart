@@ -66,71 +66,74 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                               height: 55,
                               width: MediaQuery.of(context).size.width),
                           const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                height: 40,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
                                       ),
-                                    ),
-                                    child: Wrap(
-                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                      alignment: WrapAlignment.center,
-                                      children: const [
-                                        Text("Approve", style: TextStyle(fontWeight: FontWeight.w500)),
-                                      ],
-                                    ),
-                                    onPressed: () async {
-                                      setState(() {
-                                        isApproved = true;
-                                      });
-                                      if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
-                                        _updateInterviewData();
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
-                                      } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
-                                      }
-                                    }),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SizedBox(
-                                width: 110,
-                                height: 40,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                      child: Wrap(
+                                        crossAxisAlignment: WrapCrossAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        children: const [
+                                          Text("Approve", style: TextStyle(fontWeight: FontWeight.w500)),
+                                        ],
                                       ),
-                                    ),
-                                    child: Wrap(
-                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                      alignment: WrapAlignment.center,
-                                      children: const [
-                                        Text("Reject", style: TextStyle(fontWeight: FontWeight.w500)),
-                                      ],
-                                    ),
-                                    onPressed: () async {
-                                      setState(() {
-                                        isApproved = false;
-                                      });
-                                      if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
-                                        _updateInterviewData();
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
-                                      } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
-                                      }
-                                    }),
-                              ),
-                            ],
+                                      onPressed: () async {
+                                        setState(() {
+                                          isApproved = true;
+                                        });
+                                        if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
+                                          _updateInterviewData();
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
+                                        }
+                                      }),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                  width: 110,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Wrap(
+                                        crossAxisAlignment: WrapCrossAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        children: const [
+                                          Text("Reject", style: TextStyle(fontWeight: FontWeight.w500)),
+                                        ],
+                                      ),
+                                      onPressed: () async {
+                                        setState(() {
+                                          isApproved = false;
+                                        });
+                                        if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
+                                          _updateInterviewData();
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
+                                        }
+                                      }),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       )
@@ -225,7 +228,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                 width: width ?? 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.grey.withOpacity(0.6)),
+                  //border: Border.all(color: Colors.grey.withOpacity(0.6)),
                 ),
                 child: TextFormField(
                   maxLines: 4,
@@ -240,7 +243,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                   textInputAction: TextInputAction.next,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
-                    hintText: 'Password',
+                    hintText: hintText,
                     border: const OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.black),
@@ -253,8 +256,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                     errorBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.red),
                       borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    prefixIcon: Icon(Icons.lock,color: Colors.blue,size: 23,), //make the icon also change its color
+                    ), //make the icon also change its color
                   ),
                   onChanged: (val) {
                     print(controller!.text.toString());
