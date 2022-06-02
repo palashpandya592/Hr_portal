@@ -159,6 +159,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
         .update(interview)
         .then((value) => navigateToInterviewListPage(context));
     setState(() {});
+    print("widget.commonKey${widget.commonKey}");
   }
 
   Widget candidateDetailTile({required String title, required String value}) {

@@ -7,8 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interviewapp/interviewScreen/interviewBloc/interview_event.dart';
 import 'package:interviewapp/interviewScreen/interviewBloc/interview_state.dart';
 import 'package:interviewapp/model.dart';
-import 'package:interviewapp/repository/interview_repository.dart';
-import 'package:interviewapp/sigInSignUp/blocs/authBloc/auth_events.dart';
 
 class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
   InterviewBloc(InterviewLoading initialState) : super(initialState);
