@@ -9,10 +9,12 @@ class InterviewBean {
   String? mobileNum;
   String? gender;
   String? dob;
-  String? feedback;
+  String? technicalReview;
   String? hrReview;
   String? expectedLpg;
   String? currentLpg;
+  String? department;
+  String? practicalReview;
   String? status;
   String? workPlaceOption;
 
@@ -23,6 +25,7 @@ class InterviewBean {
       this.experience,
       this.skills,
       this.age,
+      this.practicalReview,
       this.dob,
       this.prohibitionPeriod,
       this.mobileNum,
@@ -31,7 +34,8 @@ class InterviewBean {
       this.currentLpg,
       this.status,
       this.hrReview,
-      this.feedback,
+      this.technicalReview,
+      this.department,
       this.workPlaceOption});
 
   InterviewBean.fromJson(Map<dynamic, dynamic> json) {
@@ -40,7 +44,7 @@ class InterviewBean {
     age = json["age"] ?? "";
     studies = json["studies"] ?? "";
     experience = json["experience"] ?? "";
-    feedback = json["feedback"] ?? "";
+    technicalReview = json["technicalReview"] ?? "";
     dob = json["dob"] ?? "";
     status = json["status"] ?? "";
     skills = json["skills"] ?? "";
@@ -49,6 +53,8 @@ class InterviewBean {
     hrReview = json["hrReview"] ?? "";
     gender = json["gender"] ?? "";
     expectedLpg = json["expectedLpg"] ?? "";
+    department =json["department"]??"";
+    practicalReview = json['practicalReview'] ?? "";
     currentLpg = json["currentLpg"] ?? "";
     workPlaceOption = json["workPlaceOption"] ?? "";
   }
@@ -62,9 +68,11 @@ class InterviewBean {
     map["status"] = status;
     map["studies"] = studies;
     map["experience"] = experience;
-    map["feedback"] = feedback;
+    map["technicalReview"] = technicalReview;
+    map["department"]= department;
     map["skills"] = skills;
     map["prohibitionPeriod"] = prohibitionPeriod;
+    map["practicalReview"] = practicalReview;
     map["mobileNum"] = mobileNum;
     map["gender"] = gender;
     map["hrReview"] = hrReview;
@@ -74,3 +82,4 @@ class InterviewBean {
     return map;
   }
 }
+

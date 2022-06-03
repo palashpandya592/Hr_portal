@@ -24,6 +24,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   final _expectedLpgController = TextEditingController();
   final _noticePeriodController = TextEditingController();
   final _expirenceController = TextEditingController();
+  final _departmentController = TextEditingController();
   final _emailController = TextEditingController();
   final _contactNumberController = TextEditingController();
 
@@ -211,6 +212,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         hintText: "Enter Experience Details",
                         keyboardType: TextInputType.text,
                         width: MediaQuery.of(context).size.width),
+                    textFieldWidget(
+                        maxLines: false,
+                        title: "Department",
+                        controller: _departmentController,
+                        hintText: "Enter Department",
+                        keyboardType: TextInputType.text,
+                        width: MediaQuery.of(context).size.width),
                     Row(
                       children: [
                         textFieldWidget(
@@ -277,15 +285,26 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   }
 
   bool validateForm(BuildContext context) {
-    if (_nameController.text.isEmpty && _ageController.text.isEmpty &&
-        _educationController.text.isEmpty &&_educationController.text.isEmpty && _skillsController.text.isEmpty) {
+    if (_nameController.text.isEmpty && _ageController.text.isEmpty && _dobController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    } else if (_emailController.text.isEmpty && _expirenceController.text.isEmpty &&
-        _currentLpgController.text.isEmpty && _expectedLpgController.text.isEmpty && _noticePeriodController.text.isEmpty) {
+    } else if (_emailController.text.isEmpty && _contactNumberController.text.isEmpty && _educationController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    } else {
+    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty &&_departmentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    }else if (_currentLpgController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    }else if ( _expectedLpgController.text.isEmpty ) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    }else if ( _noticePeriodController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    }
+    else {
       return true;
     }
   }
@@ -383,6 +402,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     String? skills = _skillsController.text;
     String? studies = _educationController.text;
     String? status = "In-Review";
+    String? department = _departmentController.text;
     String? workPlaceOption = selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
 
     Map<String, String> interview = {
@@ -398,6 +418,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       'skills': skills,
       'studies': studies,
       'status': status,
+      'department':department,
       'workPlaceOption': workPlaceOption,
     };
 

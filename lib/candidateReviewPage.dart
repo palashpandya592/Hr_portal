@@ -15,7 +15,8 @@ class candidateReviewPage extends StatefulWidget {
 
 class _candidateReviewPageState extends State<candidateReviewPage> {
   DatabaseReference? _interviewRef;
-  final _feedController = TextEditingController();
+  final _technicalReviewController = TextEditingController();
+  final _practicalReview = TextEditingController();
   final _hrReviewController = TextEditingController();
   bool? isApproved;
 
@@ -42,28 +43,37 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                 candidateDetailTile(title: "Gender", value: widget.interviewBean.gender ?? ""),
                 candidateDetailTile(title: "email", value: widget.interviewBean.email ?? ""),
                 candidateDetailTile(title: "Contact Number", value: widget.interviewBean.mobileNum ?? ""),
+                candidateDetailTile(title: "Department", value: widget.interviewBean.department ?? ""),
                 candidateDetailTile(title: "Work Option", value: widget.interviewBean.workPlaceOption ?? "-"),
                 candidateDetailTile(title: "Current LPG", value: widget.interviewBean.currentLpg ?? ""),
                 candidateDetailTile(title: "Expected LPG", value: widget.interviewBean.expectedLpg ?? ""),
                 candidateDetailTile(title: "Notice Period", value: widget.interviewBean.prohibitionPeriod ?? ""),
                 candidateDetailTile(title: "Education  ", value: widget.interviewBean.studies ?? ""),
                 candidateDetailTile(title: "Tech.Skills", value: widget.interviewBean.skills ?? ""),
+
                 widget.interviewBean.status == "In-Review"
                     ? Column(
                         children: [
                           textFieldWidget(
-                              controller: _feedController,
-                              title: "Interview feedback",
-                              hintText: "Enter Interview feedback",
+                              controller: _practicalReview,
+                              title: "Practical Review",
+                              hintText: "Enter Practical Review",
                               keyboardType: TextInputType.text,
-                              height: 65,
+                              height: 50,
+                              width: MediaQuery.of(context).size.width),
+                          textFieldWidget(
+                              controller: _technicalReviewController,
+                              title: "Technical Review",
+                              hintText: "Enter Technical Review",
+                              keyboardType: TextInputType.text,
+                              height: 50,
                               width: MediaQuery.of(context).size.width),
                           textFieldWidget(
                               controller: _hrReviewController,
                               title: "Hr Review",
                               hintText: "Enter Hr Review",
                               keyboardType: TextInputType.text,
-                              height: 55,
+                              height: 20,
                               width: MediaQuery.of(context).size.width),
                           const SizedBox(height: 20),
                           Padding(
@@ -92,7 +102,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                                         setState(() {
                                           isApproved = true;
                                         });
-                                        if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
+                                        if (_hrReviewController.text.isNotEmpty && _technicalReviewController.text.isNotEmpty) {
                                           _updateInterviewData();
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
                                         } else {
@@ -124,7 +134,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                                         setState(() {
                                           isApproved = false;
                                         });
-                                        if (_hrReviewController.text.isNotEmpty && _feedController.text.isNotEmpty) {
+                                        if (_hrReviewController.text.isNotEmpty && _technicalReviewController.text.isNotEmpty) {
                                           _updateInterviewData();
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
                                         } else {
@@ -139,7 +149,8 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                       )
                     : Column(
                         children: [
-                          candidateDetailTile(title: "Interview FeedBack", value: widget.interviewBean.feedback ?? ""),
+                          candidateDetailTile(title: "Technical Review", value: widget.interviewBean.technicalReview ?? ""),
+                          candidateDetailTile(title: "Practical Review", value: widget.interviewBean.practicalReview ?? ""),
                           candidateDetailTile(title: "HR Review", value: widget.interviewBean.hrReview ?? ""),
                           candidateDetailTile(title: "Status", value: widget.interviewBean.status ?? ""),
                         ],
@@ -152,10 +163,11 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
 
   void _updateInterviewData() {
     String? status = isApproved == true ? "Approved" : "Rejected";
-    String? feedback = _feedController.text;
+    String? technicalReview = _technicalReviewController.text;
     String? hrReview = _hrReviewController.text;
+    String? practicalReview = _practicalReview.text;
 
-    Map<String, String> interview = {'status': status, 'feedback': feedback, 'hrReview': hrReview};
+    Map<String, String> interview = {'status': status, 'technicalReview': technicalReview, 'hrReview': hrReview,'practicalReview':practicalReview};
 
     _interviewRef!
         .child(widget.commonKey)
@@ -231,7 +243,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
                   //border: Border.all(color: Colors.grey.withOpacity(0.6)),
                 ),
                 child: TextFormField(
-                  maxLines: 4,
+                  maxLines: 3,
                   controller: controller,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
