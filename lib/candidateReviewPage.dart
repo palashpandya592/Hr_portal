@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:interviewapp/interviewScreen/interviewCandidateListPage.dart';
 import 'package:interviewapp/model.dart';
 
-class candidateReviewPage extends StatefulWidget {
+class CandidateReviewPage extends StatefulWidget {
   InterviewBean interviewBean;
   String commonKey;
 
-  candidateReviewPage({required this.interviewBean, required this.commonKey, Key? key}) : super(key: key);
+  CandidateReviewPage({required this.interviewBean, required this.commonKey, Key? key}) : super(key: key);
 
   @override
-  _candidateReviewPageState createState() => _candidateReviewPageState();
+  _CandidateReviewPageState createState() => _CandidateReviewPageState();
 }
 
-class _candidateReviewPageState extends State<candidateReviewPage> {
+class _CandidateReviewPageState extends State<CandidateReviewPage> {
   DatabaseReference? _interviewRef;
   final _technicalReviewController = TextEditingController();
   final _practicalReview = TextEditingController();
@@ -30,6 +30,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.indigo,
           title: const Text("HR-Interview Review Screen"),
         ),
         body: Padding(
@@ -186,7 +187,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
         children: [
           Text(
             "$title" " " ":",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.blue.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 15),
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.indigo.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 15),
             textAlign: TextAlign.start,
             overflow: TextOverflow.ellipsis,
           ),
@@ -205,8 +206,7 @@ class _candidateReviewPageState extends State<candidateReviewPage> {
     );
   }
 
-  Widget textFieldWidget(
-      {TextEditingController? controller,
+  Widget textFieldWidget({TextEditingController? controller,
       TextInputType? keyboardType,
       String? hintText,
       double? width,

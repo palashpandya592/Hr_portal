@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interviewapp/main.dart';
@@ -31,9 +30,24 @@ class _SignUpPageState extends State<SignUpPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("HR-Interview App", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-                const Text("SignUp to Your App", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 20),
+                Container(
+                    constraints: BoxConstraints.expand(height: 200.0),
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Image.asset("assets/images/sign_up.jpg",
+                      fit: BoxFit.cover,
+                    )),
                 const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8,0,8,13),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text("Welcome Back..", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,color: Colors.grey)),
+                      Text("Hr-Portal SignUp", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: TextFormField(
@@ -53,18 +67,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'UserName',
                       border: const OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10.0),
+                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(10.0),
+                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.account_circle,color: Colors.blue), //make the icon also change its color
+                      prefixIcon: Icon(Icons.person,color: Colors.indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -89,18 +103,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Email',
                       border: const OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(10.0),
+                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.account_circle,color: Colors.blue), //make the icon also change its color
+                      prefixIcon: Icon(Icons.person,color: Colors.indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -124,18 +138,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Password',
                       border: const OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(10.0),
+                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.lock,color: Colors.blue), //make the icon also change its color
+                      prefixIcon: Icon(Icons.lock,color: Colors.indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -159,18 +173,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Confirm Password',
                       border: const OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(10.0),
+                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.lock,color: Colors.blue), //make the icon also change its color
+                      prefixIcon: Icon(Icons.lock,color: Colors.indigo,), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -196,7 +210,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 height: 40,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue,
+                                    primary: Colors.indigo,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -225,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 height: 40,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue,
+                                    primary: Colors.indigo,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -260,7 +274,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   children: [
                     const Text("Do You Already have a Account?"),
                     TextButton(
-                        child: const Text('LogIn'),
+                        child: const Text('LogIn',style: TextStyle(color: Colors.indigo)),
                         onPressed: () {
                           navigateToLogInPage(context: context);
                         })

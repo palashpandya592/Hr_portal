@@ -40,7 +40,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.indigo,
         title: const Text("Registration Screen"),
       ),
       body: SingleChildScrollView(
@@ -105,7 +105,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                   selectedGender = value!;
                                 });
                               },
-                              activeColor: Colors.blue,
+                              activeColor: Colors.indigo,
                             ),
                           ),
                         ),
@@ -125,7 +125,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                   selectedGender = value!;
                                 });
                               },
-                              activeColor: Colors.blue,
+                              activeColor: Colors.indigo,
                             ),
                           ),
                         ),
@@ -183,7 +183,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                   selectedWorkPlace = value!;
                                 });
                               },
-                              activeColor: Colors.blue,
+                              activeColor: Colors.indigo,
                             ),
                             const Text('WorkFromOffice'),
                           ],
@@ -198,7 +198,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                   selectedWorkPlace = value!;
                                 });
                               },
-                              activeColor: Colors.blue,
+                              activeColor: Colors.indigo,
                             ),
                             const Text('W.F.Home'),
                           ],
@@ -254,7 +254,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         height: 40,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.blue,
+                              primary: Colors.indigo,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -441,7 +441,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
             Center(
               child: FlatButton(
                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                color: Colors.blue,
+                color: Colors.indigo,
                 textColor: Colors.white,
                 child: const Text('Done'),
                 onPressed: () {
