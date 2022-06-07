@@ -41,9 +41,9 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                constraints: BoxConstraints.expand(height: 200.0),
-                  decoration: BoxDecoration(color: Colors.transparent),
-                  child: Image.asset("assets/images/log_in.jpg",
+                     constraints: BoxConstraints.expand(height: 200.0),
+                    decoration: BoxDecoration(color: Colors.transparent),
+                    child: Image.asset("assets/images/log_in.jpg",
                     fit: BoxFit.cover,
                   )),
                     const SizedBox(height: 30),

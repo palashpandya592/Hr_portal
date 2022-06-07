@@ -402,6 +402,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     String? skills = _skillsController.text;
     String? studies = _educationController.text;
     String? status = "In-Review";
+    String? teamLeadStatus ="In-Review";
     String? department = _departmentController.text;
     String? workPlaceOption = selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
 
@@ -418,6 +419,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       'skills': skills,
       'studies': studies,
       'status': status,
+      'teamLeadStatus':teamLeadStatus,
       'department':department,
       'workPlaceOption': workPlaceOption,
     };

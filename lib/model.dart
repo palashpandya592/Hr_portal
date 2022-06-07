@@ -16,6 +16,7 @@ class InterviewBean {
   String? department;
   String? practicalReview;
   String? status;
+  String? teamLeadStatus;
   String? workPlaceOption;
 
   InterviewBean(
@@ -27,6 +28,7 @@ class InterviewBean {
       this.age,
       this.practicalReview,
       this.dob,
+      this.teamLeadStatus,
       this.prohibitionPeriod,
       this.mobileNum,
       this.gender,
@@ -55,6 +57,7 @@ class InterviewBean {
     expectedLpg = json["expectedLpg"] ?? "";
     department =json["department"]??"";
     practicalReview = json['practicalReview'] ?? "";
+    teamLeadStatus = json['teamLeadStatus'] ?? "";
     currentLpg = json["currentLpg"] ?? "";
     workPlaceOption = json["workPlaceOption"] ?? "";
   }
@@ -74,6 +77,7 @@ class InterviewBean {
     map["prohibitionPeriod"] = prohibitionPeriod;
     map["practicalReview"] = practicalReview;
     map["mobileNum"] = mobileNum;
+    map["teamLeadStatus"] = teamLeadStatus;
     map["gender"] = gender;
     map["hrReview"] = hrReview;
     map["expectedLpg"] = expectedLpg;

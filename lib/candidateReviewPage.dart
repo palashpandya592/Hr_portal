@@ -6,8 +6,9 @@ import 'package:interviewapp/model.dart';
 class CandidateReviewPage extends StatefulWidget {
   InterviewBean interviewBean;
   String commonKey;
+  bool? isHrRole;
 
-  CandidateReviewPage({required this.interviewBean, required this.commonKey, Key? key}) : super(key: key);
+  CandidateReviewPage({required this.interviewBean, required this.commonKey, Key? key,this.isHrRole}) : super(key: key);
 
   @override
   _CandidateReviewPageState createState() => _CandidateReviewPageState();
@@ -19,10 +20,13 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
   final _practicalReview = TextEditingController();
   final _hrReviewController = TextEditingController();
   bool? isApproved;
+  bool? isTeamLeadApproved;
 
   @override
   void initState() {
     _interviewRef = FirebaseDatabase.instance.reference().child('interview');
+    print("interviewBean${widget.interviewBean.toJson()}");
+    print(!widget.isHrRole!);
     super.initState();
   }
 
@@ -52,31 +56,35 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                 candidateDetailTile(title: "Education  ", value: widget.interviewBean.studies ?? ""),
                 candidateDetailTile(title: "Tech.Skills", value: widget.interviewBean.skills ?? ""),
 
-                widget.interviewBean.status == "In-Review"
+                widget.interviewBean.status == "In-Review" || widget.interviewBean.teamLeadStatus == "In-Review"
                     ? Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          textFieldWidget(
+                          !widget.isHrRole! && widget.interviewBean.practicalReview!.isEmpty ?  textFieldWidget(
                               controller: _practicalReview,
                               title: "Practical Review",
                               hintText: "Enter Practical Review",
                               keyboardType: TextInputType.text,
                               height: 50,
-                              width: MediaQuery.of(context).size.width),
-                          textFieldWidget(
+                              width: MediaQuery.of(context).size.width):Container(),
+                         !widget.isHrRole! && widget.interviewBean.technicalReview!.isEmpty ?  textFieldWidget(
                               controller: _technicalReviewController,
                               title: "Technical Review",
                               hintText: "Enter Technical Review",
                               keyboardType: TextInputType.text,
                               height: 50,
-                              width: MediaQuery.of(context).size.width),
-                          textFieldWidget(
+                              width: MediaQuery.of(context).size.width):Container(),
+                         widget.isHrRole! && widget.interviewBean.hrReview!.isEmpty?
+                         textFieldWidget(
                               controller: _hrReviewController,
                               title: "Hr Review",
                               hintText: "Enter Hr Review",
                               keyboardType: TextInputType.text,
                               height: 20,
-                              width: MediaQuery.of(context).size.width),
+                              width: MediaQuery.of(context).size.width):Container(),
                           const SizedBox(height: 20),
+                          (widget.isHrRole! && widget.interviewBean.hrReview!.isEmpty) ||
+                              (!widget.isHrRole! && widget.interviewBean.practicalReview!.isEmpty)?
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
@@ -103,8 +111,8 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                                         setState(() {
                                           isApproved = true;
                                         });
-                                        if (_hrReviewController.text.isNotEmpty && _technicalReviewController.text.isNotEmpty) {
-                                          _updateInterviewData();
+                                        if (widget.isHrRole ==true? hrValidateForm(context: context):teamLeadValidateForm(context: context)) {
+                                         widget.isHrRole ==true? _updateHrInterviewData():_updateTeamLeadInterviewData();
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
                                         } else {
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
@@ -135,8 +143,8 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                                         setState(() {
                                           isApproved = false;
                                         });
-                                        if (_hrReviewController.text.isNotEmpty && _technicalReviewController.text.isNotEmpty) {
-                                          _updateInterviewData();
+                                        if (widget.isHrRole ==true? hrValidateForm(context: context):teamLeadValidateForm(context: context)) {
+                                          widget.isHrRole ==true? _updateHrInterviewData():_updateTeamLeadInterviewData();
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Candidate Profile is Updated')));
                                         } else {
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enter Required Details')));
@@ -145,7 +153,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                                 ),
                               ],
                             ),
-                          ),
+                          ) :Container(),
                         ],
                       )
                     : Column(
@@ -154,6 +162,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                           candidateDetailTile(title: "Practical Review", value: widget.interviewBean.practicalReview ?? ""),
                           candidateDetailTile(title: "HR Review", value: widget.interviewBean.hrReview ?? ""),
                           candidateDetailTile(title: "Status", value: widget.interviewBean.status ?? ""),
+                          candidateDetailTile(title: "TeamLead status", value: widget.interviewBean.teamLeadStatus ?? ""),
                         ],
                       ),
               ],
@@ -162,13 +171,11 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
         ));
   }
 
-  void _updateInterviewData() {
-    String? status = isApproved == true ? "Approved" : "Rejected";
-    String? technicalReview = _technicalReviewController.text;
-    String? hrReview = _hrReviewController.text;
-    String? practicalReview = _practicalReview.text;
+  void _updateHrInterviewData() {
+    String? status = widget.isHrRole ==true ?isApproved == true ? "Approved" : "Rejected":"In-Review";
+    String? hrReview = widget.interviewBean.hrReview !=null ?_hrReviewController.text:widget.interviewBean.hrReview;
 
-    Map<String, String> interview = {'status': status, 'technicalReview': technicalReview, 'hrReview': hrReview,'practicalReview':practicalReview};
+    Map<String, String> interview = {'status': status, 'hrReview': hrReview!};
 
     _interviewRef!
         .child(widget.commonKey)
@@ -176,7 +183,25 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
         .then((value) => navigateToInterviewListPage(context));
     setState(() {});
     print("widget.commonKey${widget.commonKey}");
+    print("interview222${interview}");
   }
+
+  void _updateTeamLeadInterviewData() {
+    String? teamLeadStatus = widget.isHrRole ==false ? isApproved == true ? "Approved" : "Rejected":"In-Review";
+    String? technicalReview = widget.interviewBean.technicalReview !=null?_technicalReviewController.text:widget.interviewBean.technicalReview;
+    String? practicalReview =  widget.interviewBean.practicalReview !=null ?_practicalReview.text:widget.interviewBean.practicalReview;
+
+    Map<String, String> interview = {'technicalReview': technicalReview!, 'practicalReview':practicalReview!,'teamLeadStatus':teamLeadStatus};
+
+    _interviewRef!
+        .child(widget.commonKey)
+        .update(interview)
+        .then((value) => navigateToInterviewListPage(context));
+    setState(() {});
+    print("widget.commonKey${widget.commonKey}");
+    print("interview222${interview}");
+  }
+
 
   Widget candidateDetailTile({required String title, required String value}) {
     return Padding(
@@ -283,7 +308,30 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
       ),
     );
   }
+
+  bool hrValidateForm({required BuildContext context}) {
+    if (_hrReviewController.text.toString() == "") {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter Hr-Review")));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool teamLeadValidateForm({required BuildContext context}) {
+    if (_practicalReview.text.toString() == "") {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter Practical-Review")));
+      return false;
+    } if (_technicalReviewController.text.toString() == "") {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter Technical-Review")));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
+
 
 void navigateToInterviewListPage(BuildContext? context) {
   Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));
