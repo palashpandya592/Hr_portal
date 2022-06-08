@@ -66,6 +66,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                       hintText: 'UserName',
                       border: const OutlineInputBorder(),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
                       enabledBorder: OutlineInputBorder(
                          borderSide: const BorderSide(color: Colors.black,width: 1),
                         borderRadius: BorderRadius.circular(40.0),
@@ -102,6 +106,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                       hintText: 'Email',
                       border: const OutlineInputBorder(),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.black,width: 1),
                         borderRadius: BorderRadius.circular(40.0),
@@ -137,6 +145,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                       hintText: 'Password',
                       border: const OutlineInputBorder(),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.black,width: 1),
                         borderRadius: BorderRadius.circular(40.0),
@@ -172,6 +184,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: InputDecoration(
                       hintText: 'Confirm Password',
                       border: const OutlineInputBorder(),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.black,width: 1),
                         borderRadius: BorderRadius.circular(40.0),
@@ -184,6 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
+
                       prefixIcon: Icon(Icons.lock,color: Colors.indigo,), //make the icon also change its color
                     ),
                   ),

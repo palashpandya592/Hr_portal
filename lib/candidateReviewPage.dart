@@ -25,8 +25,6 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
   @override
   void initState() {
     _interviewRef = FirebaseDatabase.instance.reference().child('interview');
-    print("interviewBean${widget.interviewBean.toJson()}");
-    print(!widget.isHrRole!);
     super.initState();
   }
 
@@ -161,7 +159,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                           candidateDetailTile(title: "Technical Review", value: widget.interviewBean.technicalReview ?? ""),
                           candidateDetailTile(title: "Practical Review", value: widget.interviewBean.practicalReview ?? ""),
                           candidateDetailTile(title: "HR Review", value: widget.interviewBean.hrReview ?? ""),
-                          candidateDetailTile(title: "Status", value: widget.interviewBean.status ?? ""),
+                          candidateDetailTile(title: "Hr Status", value: widget.interviewBean.status ?? ""),
                           candidateDetailTile(title: "TeamLead status", value: widget.interviewBean.teamLeadStatus ?? ""),
                         ],
                       ),
@@ -202,7 +200,6 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
     print("interview222${interview}");
   }
 
-
   Widget candidateDetailTile({required String title, required String value}) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
@@ -221,7 +218,9 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
             width: MediaQuery.of(context).size.width - 130,
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  color: Colors.black.withOpacity(0.7),
+                  fontWeight: FontWeight.w500),
               textAlign: TextAlign.start,
               overflow: TextOverflow.clip,
             ),
@@ -231,7 +230,8 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
     );
   }
 
-  Widget textFieldWidget({TextEditingController? controller,
+  Widget textFieldWidget({
+      TextEditingController? controller,
       TextInputType? keyboardType,
       String? hintText,
       double? width,
@@ -331,7 +331,6 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
   }
 
 }
-
 
 void navigateToInterviewListPage(BuildContext? context) {
   Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));

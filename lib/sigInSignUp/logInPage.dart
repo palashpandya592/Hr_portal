@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          hintText: ' EamilId',
+                          hintText: ' EmailId',
                           border: const OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
                              borderSide: const BorderSide(color: Colors.black,width: 1),
@@ -83,6 +83,10 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           focusedBorder: OutlineInputBorder(
                              borderSide: const BorderSide(color: Colors.black,width: 1),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red,width: 1.5),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           errorBorder: OutlineInputBorder(
@@ -113,6 +117,10 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           hintText: 'Password',
                           border: const OutlineInputBorder(),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
                           enabledBorder: OutlineInputBorder(
                              borderSide: const BorderSide(color: Colors.black,width: 1),
                             borderRadius: BorderRadius.circular(40.0),

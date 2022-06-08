@@ -23,6 +23,7 @@ class InterViewerCandidatePage extends StatefulWidget {
 
 class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
   InterviewBean? interviewList;
+  List<InterviewBean>? list;
   TextEditingController searchcontroller = new TextEditingController();
   DatabaseReference? itemRef;
   String? filter;
@@ -89,6 +90,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is InterViewSuccess) {
                   exist = state.data;
+                  print("exist222${exist}");
                   return getInterviewList();
                 } else if (state is InterViewFailure) {
                   return Text(state.error ?? "Something Went Wrong");
@@ -131,40 +133,60 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8, top: 10, right: 10, bottom: 10),
-          child: Container(
-            width: 390,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 1),
-                  child: SizedBox(
-                      width: 35,
-                      child: Icon(
-                        Icons.search,
-                        size: 20,
-                        color: Colors.grey,
-                      )),
-                ),
-                SizedBox(
-                  width: 285,
-                  child: TextField(
-                    controller: searchcontroller,
-                    decoration: InputDecoration(
-                        hintText: "Search By Name...",
-                        hintStyle: Theme.of(context).textTheme.caption!.copyWith(color: Colors.grey),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(bottom: 1)),
-                    onChanged: onSearchTextChanged,
+          padding: const EdgeInsets.only(left: 8, top: 10, right: 1, bottom: 10),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: Container(
+                  width: 270,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 1),
+                        child: SizedBox(
+                            width: 35,
+                            child: Icon(
+                              Icons.search,
+                              size: 20,
+                              color: Colors.grey,
+                            )),
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: TextField(
+                          controller: searchcontroller,
+                          decoration: InputDecoration(
+                              hintText: "Search By Name...",
+                              hintStyle: Theme.of(context).textTheme.caption!.copyWith(color: Colors.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(bottom: 1)),
+                          onChanged: (String text){
+                            searchResult.clear();
+                            if (text.isEmpty) {
+                              setState(() {});
+                              return;
+                            }
+                            setState(() {
+                              interviewList!.name!.contains(text.trim()) || interviewList!.name!.contains(text.toLowerCase());
+                              searchResult.add(interviewList!);
+                              print("searchResult${searchResult.length}");
+                            });
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              XActionInfo(context),
+            ],
           ),
         ),
         Expanded(
@@ -175,88 +197,219 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
               final json = snapshot.value as Map<dynamic, dynamic>;
               final message = InterviewBean.fromJson(json);
               String? interviewKey = snapshot.key;
+              interviewList = message;
               return message == null
-                  ? Center(child: const Text('No data Available'))
+                  ? Center(child: const Text('No data Available111111'))
                   : ((searchResult.length != 0 || searchcontroller.text.isNotEmpty) && searchcontroller.text != '')
                       ? searchResult.length == 0
-                          ? Center(child: const Text('No data Available'))
+                          ? Center(child: const Text('No data Available222222222'))
                           : Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                elevation: 3,
-                                child: Container(
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.indigoAccent, width: 1.2),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 3),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(message.name ?? "",
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 17,
+                padding: const EdgeInsets.all(2.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 3,
+                  child: Container(
+                    height: 110,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 3),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(message.name ?? "",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17,
+                                  )),
+                              InkWell(
+                                  onTap: () {
+                                    message.status =="In-Review" || message.teamLeadStatus =="In-Review"?
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(builder: (context, setState) {
+                                          return AlertDialog(
+                                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35))),
+                                            title: Center(
+                                                child: const Text(
+                                                  "Select Role",
+                                                  style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.w600),
                                                 )),
-                                            InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CandidateReviewPage(interviewBean: message, commonKey: interviewKey!)));
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      "Review",
-                                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                          color: Colors.indigoAccent.withOpacity(0.9), fontWeight: FontWeight.w600, fontSize: 13),
+                                            content: Padding(
+                                              padding: EdgeInsets.fromLTRB(15, 0, 6, 0),
+                                              child: Container(
+                                                width: 300,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey)),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: FormField<dynamic>(
+                                                        builder: (FormFieldState<dynamic> states) {
+                                                          return InputDecorator(
+                                                            decoration: InputDecoration(
+                                                                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                                                                contentPadding: EdgeInsets.only(left: 10),
+                                                                border: InputBorder.none),
+                                                            child: DropdownButtonHideUnderline(
+                                                                child: DropdownButton<String>(
+                                                                  value: dropdownValue,
+                                                                  icon: Icon(
+                                                                    Icons.keyboard_arrow_down,
+                                                                    color: Colors.indigo,
+                                                                  ),
+                                                                  iconSize: 30,
+                                                                  isExpanded: true,
+                                                                  onChanged: (String? newValue) {
+                                                                    setState(() {
+                                                                      dropdownValue = newValue!;
+                                                                    });
+                                                                    print("dropdownValue${dropdownValue}");
+                                                                  },
+                                                                  items: roleItemList.map<DropdownMenuItem<String>>((String value) {
+                                                                    return DropdownMenuItem<String>(
+                                                                      value: value,
+                                                                      child: Text(value),
+                                                                    );
+                                                                  }).toList(),
+                                                                  hint: Text("select"),
+                                                                )),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
-                                                    Container(
-                                                      width: 38,
-                                                      height: 1,
-                                                      color: Colors.indigoAccent,
+                                                    Padding(
+                                                      padding: EdgeInsets.only(right: 10.0, left: 0.0),
                                                     ),
                                                   ],
-                                                )),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 9),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            detailsWidget(title: "Age", value: message.age ?? ""),
-                                            detailsWidget(title: "Gender", value: message.gender ?? ""),
-                                            detailsWidget(
-                                                title: "status",
-                                                value: message.status ?? "In-Review",
-                                                color: message.status == "Approved"
-                                                    ? Colors.green
-                                                    : message.status == "Rejected"
-                                                        ? Colors.red
-                                                        : Colors.orangeAccent),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 6,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                                ),
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              Center(
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    FlatButton(
+                                                      shape:
+                                                      const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                      color: Colors.grey,
+                                                      textColor: Colors.white,
+                                                      child: const Text('Cancel'),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    FlatButton(
+                                                      shape:
+                                                      const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                      color: Colors.indigo,
+                                                      textColor: Colors.white,
+                                                      child: const Text('Done'),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => CandidateReviewPage(
+                                                                  interviewBean: message,
+                                                                  commonKey: interviewKey!,
+                                                                  isHrRole: dropdownValue == "Hr" ? true : false,
+                                                                ))).then((value) => Navigator.pop(context));
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                      },
+                                    ):  Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CandidateReviewPage(
+                                              interviewBean: message,
+                                              commonKey: interviewKey!,
+                                              isHrRole:false,
+                                            )));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Review",
+                                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                            color: Colors.indigoAccent.withOpacity(0.9), fontWeight: FontWeight.w600, fontSize: 13),
+                                      ),
+                                      Container(
+                                        width: 38,
+                                        height: 1,
+                                        color: Colors.indigoAccent,
+                                      ),
+                                    ],
+                                  )),
+                            ],
+                          ),
+                          const SizedBox(height: 9),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  detailsWidget(title: "Age", value: message.age ?? ""),
+                                  detailsWidget(title: "Gender", value: message.gender ?? ""),
+                                  detailsWidget(title: "Dep.", value: message.department ?? ""),
+                                ],
                               ),
-                            )
+                              SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  detailsWidget(
+                                      title: " Hr status",
+                                      value: message.status ?? "In-Review",
+                                      color: message.status == "Approved"
+                                          ? Colors.green
+                                          : message.status == "Rejected"
+                                          ? Colors.red
+                                          : Colors.orangeAccent),
+                                  detailsWidget(
+                                      title: "TL status",
+                                      value:  message.teamLeadStatus ?? "In-Review",
+                                      color: message.teamLeadStatus == "Approved"
+                                          ? Colors.green
+                                          : message.teamLeadStatus == "Rejected"
+                                          ? Colors.red
+                                          : Colors.orangeAccent)
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )
                       : Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Card(
@@ -468,6 +621,46 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget XActionInfo(BuildContext context,) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: PopupMenuButton(
+          color: Colors.white,
+            child: Icon(Icons.sort,size: 28),
+            itemBuilder: (_) => <PopupMenuItem<String>>[
+              new PopupMenuItem<String>(
+                child: Text(
+                 "Sort by Department"
+                ),
+                value: "SORT_BY_NAME",
+              ),
+              new PopupMenuItem<String>(
+                child: Text(
+                 "Sort by Status"
+                ),
+                value: "SORT_BY_STATUS",
+              ),
+            ],
+            onSelected: (String index) {
+            print("indesss${index}");
+            if(index =="SORT_BY_NAME"){
+              list!.sort((a, b) => a.department!.compareTo(b.department!));
+            }else{
+              list!.sort((b, a) => a.teamLeadStatus!.compareTo(b.teamLeadStatus!));
+            }
+            //  _feeDetailsBloc!.add(SortStudentsFeebyGradeEvent(type: index));
+            }),
+      ),
     );
   }
 

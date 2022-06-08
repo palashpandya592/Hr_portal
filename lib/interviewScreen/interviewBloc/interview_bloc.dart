@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,11 +26,14 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
         print("2222222222");
         var snapshot  = FirebaseDatabase.instance.reference().child('interview').orderByValue().once().
         then((DataSnapshot snapshot) async{
-          exist =snapshot.value;
-          print("exist${exist!.values}");
-           }
-          );
+
+          String jsonsDataString = snapshot.value.toString(); // toString of Response's body is assigned to jsonDataString
+          interviewList = jsonDecode(jsonsDataString);
+          print(interviewList.toString());
+          // interviewList = json.decode(snapshot.toString());
+           });
         print("33333333");
+        print("interviewList${interviewList}");
         yield InterViewSuccess(data: exist);
       } catch (e) {
         yield InterViewFailure(error: e.toString());
