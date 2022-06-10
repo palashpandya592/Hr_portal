@@ -1,4 +1,5 @@
 class InterviewBean {
+  String? id;
   String? name;
   String? email;
   String? studies;
@@ -20,7 +21,8 @@ class InterviewBean {
   String? workPlaceOption;
 
   InterviewBean(
-      {this.name,
+      {this.id,
+       this.name,
       this.email,
       this.studies,
       this.experience,
@@ -42,6 +44,7 @@ class InterviewBean {
 
   InterviewBean.fromJson(Map<dynamic, dynamic> json) {
     name = json["name"] ?? "";
+    id = json["id"] ?? "";
     email = json["email"] ?? "";
     age = json["age"] ?? "";
     studies = json["studies"] ?? "";
@@ -64,6 +67,7 @@ class InterviewBean {
 
   Map toJson() {
     var map = <dynamic, dynamic>{};
+    map["id"] = id;
     map["name"] = name;
     map["email"] = email;
     map["age"] = age;

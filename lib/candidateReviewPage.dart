@@ -25,6 +25,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
   @override
   void initState() {
     _interviewRef = FirebaseDatabase.instance.reference().child('interview');
+    print("commonKey${widget.commonKey}");
     super.initState();
   }
 
@@ -58,21 +59,21 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                     ? Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          !widget.isHrRole! && widget.interviewBean.practicalReview!.isEmpty ?  textFieldWidget(
+                          !widget.isHrRole! && widget.interviewBean.practicalReview ==null ?  textFieldWidget(
                               controller: _practicalReview,
                               title: "Practical Review",
                               hintText: "Enter Practical Review",
                               keyboardType: TextInputType.text,
                               height: 50,
                               width: MediaQuery.of(context).size.width):Container(),
-                         !widget.isHrRole! && widget.interviewBean.technicalReview!.isEmpty ?  textFieldWidget(
+                         !widget.isHrRole! && widget.interviewBean.technicalReview ==null ?  textFieldWidget(
                               controller: _technicalReviewController,
                               title: "Technical Review",
                               hintText: "Enter Technical Review",
                               keyboardType: TextInputType.text,
                               height: 50,
                               width: MediaQuery.of(context).size.width):Container(),
-                         widget.isHrRole! && widget.interviewBean.hrReview!.isEmpty?
+                         widget.isHrRole==true && widget.interviewBean.hrReview ==null?
                          textFieldWidget(
                               controller: _hrReviewController,
                               title: "Hr Review",
@@ -81,8 +82,8 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
                               height: 20,
                               width: MediaQuery.of(context).size.width):Container(),
                           const SizedBox(height: 20),
-                          (widget.isHrRole! && widget.interviewBean.hrReview!.isEmpty) ||
-                              (!widget.isHrRole! && widget.interviewBean.practicalReview!.isEmpty)?
+                          (widget.isHrRole! && widget.interviewBean.hrReview==null) ||
+                              (!widget.isHrRole! && widget.interviewBean.practicalReview ==null)?
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
