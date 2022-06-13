@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/material/radio.dart';
 import 'package:interviewapp/interviewScreen/interviewCandidateListPage.dart';
 import 'package:interviewapp/repository/databaseRepository.dart';
@@ -134,6 +135,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     textFieldWidget(
                         maxLines: false,
                         title: "Email",
+                        isEmail: true,
                         controller: _emailController,
                         hintText: "Enter Email",
                         keyboardType: TextInputType.emailAddress,
@@ -141,6 +143,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     textFieldWidget(
                         maxLines: false,
                         title: "Contact Number",
+                        isNumeric: true,
                         controller: _contactNumberController,
                         hintText: "Enter Contact Number",
                         keyboardType: TextInputType.number,
@@ -210,7 +213,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         title: "Experience(months)",
                         controller: _expirenceController,
                         hintText: "Enter Experience Details",
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         width: MediaQuery.of(context).size.width),
                     textFieldWidget(
                         maxLines: false,
@@ -240,7 +243,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     textFieldWidget(
                         maxLines: false,
                         controller: _noticePeriodController,
-                        title: "Notice Period Duration",
+                        title: "Notice Period Duration(days)",
                         hintText: "Enter Notice Period",
                         keyboardType: TextInputType.text,
                         width: MediaQuery.of(context).size.width),
@@ -267,7 +270,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                               ],
                             ),
                             onPressed: () {
-                              if(validateForm(context)){
+                              if (validateForm(context)) {
                                 _saveInterviewData();
                                 _showDialog();
                               }
@@ -291,34 +294,36 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     } else if (_emailController.text.isEmpty && _contactNumberController.text.isEmpty && _educationController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty &&_departmentController.text.isEmpty) {
+    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty && _departmentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    }else if (_currentLpgController.text.isEmpty) {
+    } else if (_currentLpgController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    }else if ( _expectedLpgController.text.isEmpty ) {
+    } else if (_expectedLpgController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    }else if ( _noticePeriodController.text.isEmpty) {
+    } else if (_noticePeriodController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
 
-  Widget textFieldWidget(
-      {TextEditingController? controller,
-      TextInputType? keyboardType,
-      String? hintText,
-      double? width,
-      double? height,
-      bool? maxLines =false,
-      String? title,
-      String? imageUrl,
-      bool? isMandatory = false}) {
+  Widget textFieldWidget({
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+    String? hintText,
+    double? width,
+    double? height,
+    bool? isEmail = false,
+    bool isMandatory = false,
+    bool? isNumeric = false,
+    bool? maxLines = false,
+    String? title,
+    String? imageUrl,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: SizedBox(
@@ -344,8 +349,11 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
               child: SizedBox(
                 width: width ?? 200,
                 child: TextFormField(
-                  maxLines: maxLines ==false ?1:4,
+                  maxLines: maxLines == false ? 1 : 4,
                   controller: controller,
+                  inputFormatters: <TextInputFormatter>[
+                    isNumeric == true ? FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) : FilteringTextInputFormatter.singleLineFormatter,
+                  ],
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -354,12 +362,24 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     }
                     return null;
                   },
+                  /*validator: FormBuilderValidators.compose([
+                    maxLengthEnforced
+                        ? FormBuilderValidators.maxLength(context, maxLines ?? 50)
+                        : FormBuilderValidators.maxLength(context, 50000),
+                    isMandatory ? FormBuilderValidators.required(context) : FormBuilderValidators.maxLength(context, 50000),
+                    isNumber ? FormBuilderValidators.numeric(context) : FormBuilderValidators.maxLength(context, 50000),
+                    isNumber ? FormBuilderValidators.maxLength(context, 50) : FormBuilderValidators.maxLength(context, 50000),
+                    isEmail ? FormBuilderValidators.email(context) : FormBuilderValidators.maxLength(context, 50000),
+                    isGeoPoint
+                        ? FormBuilderValidators.match(context, r"^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$")
+                        : FormBuilderValidators.maxLength(context, 50000),
+                  ]),*/
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: hintText,
                     hintStyle: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Colors.grey.withOpacity(0.7),
-                    ),
+                          color: Colors.grey.withOpacity(0.7),
+                        ),
                     border: const OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.grey),
@@ -387,9 +407,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
-
-
   void _saveInterviewData() {
+    String? key = _interviewRef!.push().key;
     String? name = _nameController.text;
     String? email = _emailController.text;
     String? prohibitionPeriod = _noticePeriodController.text;
@@ -402,11 +421,12 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     String? skills = _skillsController.text;
     String? studies = _educationController.text;
     String? status = "In-Review";
-    String? teamLeadStatus ="In-Review";
+    String? teamLeadStatus = "In-Review";
     String? department = _departmentController.text;
     String? workPlaceOption = selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
 
     Map<String, String> interview = {
+      'key': key,
       'name': name,
       'email': email,
       'prohibitionPeriod': prohibitionPeriod,
@@ -419,12 +439,14 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       'skills': skills,
       'studies': studies,
       'status': status,
-      'teamLeadStatus':teamLeadStatus,
-      'department':department,
+      'teamLeadStatus': teamLeadStatus,
+      'department': department,
       'workPlaceOption': workPlaceOption,
     };
+    // _interviewRef!.push().set(interview);
+    _interviewRef!.child(key).set(interview);
 
-    _interviewRef!.push().set(interview);
+    print("interviewwwwwwwwwww${interview}");
     setState(() {});
   }
 
@@ -456,6 +478,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       },
     );
   }
+
   void navigateToInterviewListPage(BuildContext? context) {
     Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));
   }

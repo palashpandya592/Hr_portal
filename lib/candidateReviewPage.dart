@@ -172,7 +172,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
 
   void _updateHrInterviewData() {
     String? status = widget.isHrRole ==true ?isApproved == true ? "Approved" : "Rejected":"In-Review";
-    String? hrReview = widget.interviewBean.hrReview !=null ?_hrReviewController.text:widget.interviewBean.hrReview;
+    String? hrReview = widget.interviewBean.hrReview == null ?_hrReviewController.text: widget.interviewBean.hrReview;
 
     Map<String, String> interview = {'status': status, 'hrReview': hrReview!};
 
@@ -187,8 +187,8 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
 
   void _updateTeamLeadInterviewData() {
     String? teamLeadStatus = widget.isHrRole ==false ? isApproved == true ? "Approved" : "Rejected":"In-Review";
-    String? technicalReview = widget.interviewBean.technicalReview !=null?_technicalReviewController.text:widget.interviewBean.technicalReview;
-    String? practicalReview =  widget.interviewBean.practicalReview !=null ?_practicalReview.text:widget.interviewBean.practicalReview;
+    String? technicalReview = widget.interviewBean.technicalReview ==null?_technicalReviewController.text:widget.interviewBean.technicalReview;
+    String? practicalReview =  widget.interviewBean.practicalReview ==null ?_practicalReview.text:widget.interviewBean.practicalReview;
 
     Map<String, String> interview = {'technicalReview': technicalReview!, 'practicalReview':practicalReview!,'teamLeadStatus':teamLeadStatus};
 

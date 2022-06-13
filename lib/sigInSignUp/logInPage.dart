@@ -41,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                     constraints: BoxConstraints.expand(height: 200.0),
-                    decoration: BoxDecoration(color: Colors.transparent),
+                     constraints: const BoxConstraints.expand(height: 200.0),
+                    decoration: const BoxDecoration(color: Colors.transparent),
                     child: Image.asset("assets/images/log_in.jpg",
                     fit: BoxFit.cover,
                   )),
@@ -53,7 +53,6 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
                           Text("Welcome Back..", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,color: Colors.grey)),
-
                           Text("Hr-Portal Login", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
                         ],
                       ),
