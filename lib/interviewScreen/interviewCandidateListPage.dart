@@ -38,6 +38,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
   @override
   void initState() {
+    isLoading =true;
     getDataFromFirebaseMethod(interviewKey);
     super.initState();
   }
@@ -99,21 +100,17 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
   }
 
   Widget? floatingButton() {
-    return SizedBox(
-      height: 45,
-      width: 50,
-      child: FloatingActionButton(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-        backgroundColor: Colors.indigo,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 25,
-        ),
-        onPressed: () {
-          navigateToCreateCandidatePage(context);
-        },
+    return FloatingActionButton(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+      backgroundColor: Colors.indigo,
+      child: const Icon(
+        Icons.add,
+        color: Colors.white,
+        size: 25,
       ),
+      onPressed: () {
+        navigateToCreateCandidatePage(context);
+      },
     );
   }
 
@@ -126,7 +123,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
             Padding(
               padding: const EdgeInsets.only(right: 6),
               child: Container(
-                width: 270,
+                width: MediaQuery.of(context).size.width -90,
                 height: 50,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
@@ -145,7 +142,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                           )),
                     ),
                     SizedBox(
-                      width: 200,
+                      width: MediaQuery.of(context).size.width -150,
                       child: TextField(
                           controller: searchController,
                           decoration: InputDecoration(
@@ -331,7 +328,10 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                             interviewBean: bean,
                                             commonKey: bean.key ??"",
                                             isHrRole: false,
-                                          )));
+                                          ))).then((value) {
+                            getDataFromFirebaseMethod(interviewKey);
+                            setState(() {});
+                          });
                         },
                         child: Column(
                           children: [
@@ -539,7 +539,11 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
   }
 
   void navigateToCreateCandidatePage(BuildContext? context) {
-    Navigator.push(context!, MaterialPageRoute(builder: (context) => const CreateCandidateScreen()));
+    Navigator.push(context!, MaterialPageRoute(builder: (context) =>
+    const CreateCandidateScreen())).then((value) {
+      getDataFromFirebaseMethod(interviewKey);
+      setState(() {});
+    });
   }
 
   void navigateToLogInPage(BuildContext? context) {

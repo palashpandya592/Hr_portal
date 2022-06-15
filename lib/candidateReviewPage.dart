@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:interviewapp/interviewScreen/interviewCandidateListPage.dart';
 import 'package:interviewapp/model.dart';
+import 'package:intl/intl.dart';
 
 class CandidateReviewPage extends StatefulWidget {
   InterviewBean interviewBean;
@@ -201,7 +202,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
     print("interview222${interview}");
   }
 
-  Widget candidateDetailTile({required String title, required String value}) {
+  Widget candidateDetailTile({required String title, required String value,}) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Row(
@@ -216,7 +217,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            width: MediaQuery.of(context).size.width - 130,
+            width: MediaQuery.of(context).size.width - 153,
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
@@ -331,7 +332,7 @@ class _CandidateReviewPageState extends State<CandidateReviewPage> {
     }
   }
 
-}
+   }
 
 void navigateToInterviewListPage(BuildContext? context) {
   Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));

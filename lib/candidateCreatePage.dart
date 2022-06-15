@@ -28,6 +28,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   final _departmentController = TextEditingController();
   final _emailController = TextEditingController();
   final _contactNumberController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  var dateController = TextEditingController();
 
   DatabaseReference? _interviewRef;
 
@@ -48,8 +50,11 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
         child: Column(
           children: [
             SingleChildScrollView(
-              child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 10,
@@ -61,23 +66,15 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         hintText: "Enter Candidate Name",
                         keyboardType: TextInputType.text,
                         width: MediaQuery.of(context).size.width),
-                    Row(
-                      children: [
-                        textFieldWidget(
-                            maxLines: false,
-                            title: "Age",
-                            controller: _ageController,
-                            hintText: "enter Age",
-                            keyboardType: TextInputType.number,
-                            width: MediaQuery.of(context).size.width / 2 - 20),
-                        textFieldWidget(
-                            maxLines: false,
-                            title: "Date of Birth",
-                            controller: _dobController,
-                            hintText: "Enter Date of Birth",
-                            keyboardType: TextInputType.text,
-                            width: MediaQuery.of(context).size.width / 2),
-                      ],
+                    numericTextFieldWidget(
+                        title: "Age",
+                        controller: _ageController,
+                        hintText: "enter Age",
+                        keyboardType: TextInputType.number,
+                        width: MediaQuery.of(context).size.width ),
+                    textDatePickerWidget(
+                        context: context,
+                        width: MediaQuery.of(context).size.width
                     ),
                     Row(
                       children: [
@@ -132,22 +129,118 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         ),
                       ],
                     ),
-                    textFieldWidget(
-                        maxLines: false,
-                        title: "Email",
-                        isEmail: true,
-                        controller: _emailController,
-                        hintText: "Enter Email",
-                        keyboardType: TextInputType.emailAddress,
-                        width: MediaQuery.of(context).size.width),
-                    textFieldWidget(
-                        maxLines: false,
-                        title: "Contact Number",
-                        isNumeric: true,
-                        controller: _contactNumberController,
-                        hintText: "Enter Contact Number",
-                        keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+                          child: SizedBox(
+                            width: 280,
+                            child: Text("Email Id",
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            style: Theme.of(context).textTheme.bodyText2,
+                            maxLines: 1,
+                            controller: _emailController,
+                            textAlign: TextAlign.left,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.length > 4 && value.contains('@') && value.endsWith('.com')) {
+                                return null;
+                              } else {
+                                return 'Enter Valid EmailId';
+                              }
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'EmailId',
+                              border: const OutlineInputBorder(),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+                          child: SizedBox(
+                            width: 280,
+                            child: Text("Contact Number",
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            style: Theme.of(context).textTheme.bodyText2,
+                            maxLines: 1,
+                            controller: _contactNumberController,
+                            textAlign: TextAlign.left,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+                            ],
+                            validator: (value) {
+                              String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                              RegExp regExp = new RegExp(patttern);
+                              if (value!.length != 10)
+                                return 'Please enter valid mobile number';
+                              else if (!regExp.hasMatch(value)) {
+                                return 'Please enter valid mobile number';
+                              } else
+                                return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Contact Number',
+                              border: const OutlineInputBorder(),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ), //make the icon also change its color
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     textFieldWidget(
                         maxLines: true,
                         title: "Education",
@@ -208,8 +301,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         ),
                       ],
                     ),
-                    textFieldWidget(
-                        maxLines: false,
+                    numericTextFieldWidget(
                         title: "Experience(months)",
                         controller: _expirenceController,
                         hintText: "Enter Experience Details",
@@ -224,15 +316,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         width: MediaQuery.of(context).size.width),
                     Row(
                       children: [
-                        textFieldWidget(
-                            maxLines: false,
+                        numericTextFieldWidget(
                             controller: _currentLpgController,
                             title: "Current LPG(L)",
                             hintText: "enter Current LPG",
                             keyboardType: TextInputType.number,
                             width: MediaQuery.of(context).size.width / 2 - 20),
-                        textFieldWidget(
-                            maxLines: false,
+                        numericTextFieldWidget(
                             controller: _expectedLpgController,
                             title: "Expected LPG(L)",
                             hintText: "Enter Expected LPG",
@@ -240,13 +330,12 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                             width: MediaQuery.of(context).size.width / 2),
                       ],
                     ),
-                    textFieldWidget(
-                        maxLines: false,
+                    numericTextFieldWidget(
                         controller: _noticePeriodController,
                         title: "Notice Period Duration(days)",
                         hintText: "Enter Notice Period",
-                        keyboardType: TextInputType.text,
-                        width: MediaQuery.of(context).size.width),
+                        keyboardType: TextInputType.number,
+                        width: MediaQuery.of(context).size.width ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -287,30 +376,6 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
-  bool validateForm(BuildContext context) {
-    if (_nameController.text.isEmpty && _ageController.text.isEmpty && _dobController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else if (_emailController.text.isEmpty && _contactNumberController.text.isEmpty && _educationController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty && _departmentController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else if (_currentLpgController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else if (_expectedLpgController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else if (_noticePeriodController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   Widget textFieldWidget({
     TextEditingController? controller,
     TextInputType? keyboardType,
@@ -322,8 +387,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     bool? isNumeric = false,
     bool? maxLines = false,
     String? title,
-    String? imageUrl,
-  }) {
+    String? imageUrl}) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: SizedBox(
@@ -362,24 +426,12 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                     }
                     return null;
                   },
-                  /*validator: FormBuilderValidators.compose([
-                    maxLengthEnforced
-                        ? FormBuilderValidators.maxLength(context, maxLines ?? 50)
-                        : FormBuilderValidators.maxLength(context, 50000),
-                    isMandatory ? FormBuilderValidators.required(context) : FormBuilderValidators.maxLength(context, 50000),
-                    isNumber ? FormBuilderValidators.numeric(context) : FormBuilderValidators.maxLength(context, 50000),
-                    isNumber ? FormBuilderValidators.maxLength(context, 50) : FormBuilderValidators.maxLength(context, 50000),
-                    isEmail ? FormBuilderValidators.email(context) : FormBuilderValidators.maxLength(context, 50000),
-                    isGeoPoint
-                        ? FormBuilderValidators.match(context, r"^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$")
-                        : FormBuilderValidators.maxLength(context, 50000),
-                  ]),*/
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: hintText,
                     hintStyle: Theme.of(context).textTheme.caption!.copyWith(
-                          color: Colors.grey.withOpacity(0.7),
-                        ),
+                      color: Colors.grey.withOpacity(0.7),
+                    ),
                     border: const OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.grey),
@@ -407,6 +459,193 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate != null
+            ? DateTime.parse("${selectedDate.toLocal()}".split(' ')[0])
+            : DateTime.now(),
+        firstDate: DateTime(1980, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  bool validateForm(BuildContext context) {
+    if (_nameController.text.isEmpty && _ageController.text.isEmpty && _dobController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_emailController.text.isEmpty && _contactNumberController.text.isEmpty && _educationController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty && _departmentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_currentLpgController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_expectedLpgController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else if (_noticePeriodController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Widget textDatePickerWidget({
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+    BuildContext? context,
+    String? hintText,
+    double? width,
+    double? height,
+    bool? isEmail = false,
+    bool isMandatory = false,
+    bool? isNumeric = false,
+    bool? maxLines = false,
+    String? title,
+    String? imageUrl}) {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: SizedBox(
+        width: width ?? 200,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+              child: SizedBox(
+                width: 280,
+                child: Text(
+                  "Date Of Birth",
+                  style: Theme.of(context!).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+              child: SizedBox(
+                width: width ?? 200,
+                child: TextFormField(
+                  style: Theme.of(context).textTheme.bodyText2!.
+                  copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                    showCursor: false,
+                    onTap: (){
+                    _selectDate(context);
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10),
+                    hintText: selectedDate !=null? "${selectedDate.toLocal()}".split(' ')[0] :"Select Date",
+                    hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          color: Colors.black.withOpacity(0.7),
+                        ),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    suffixIcon: Icon(Icons.calendar_today_sharp,color: Colors.black,size: 17),//make the icon also change its color
+                  ),
+                  onChanged: (val) {
+                    setState(() {});
+                  },
+                  keyboardType: keyboardType,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget numericTextFieldWidget({TextEditingController? controller,
+    TextInputType? keyboardType,String? title,
+    String? hintText,
+    double? width, double? height}){
+    return SizedBox(
+      width: width ?? 200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+            child: SizedBox(
+              width: 280,
+              child: Text(title!,
+                style: Theme.of(context).textTheme.bodyText1!.
+                copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: TextFormField(
+              style: Theme.of(context).textTheme.bodyText2,
+              maxLines: 1,
+              controller: controller,
+              textAlign: TextAlign.left,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp('[0-9.]+')),
+              ],
+              validator: (value) {
+                RegExp regExp = RegExp(r'[0-9]');
+                if (value!.isEmpty) {
+                  return 'Please enter valid number';
+                } else
+                  return null;
+              },
+              decoration: InputDecoration(
+                hintText: hintText,
+                border: const OutlineInputBorder(),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey,width: 1),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey,width: 1),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.red),
+                  borderRadius: BorderRadius.circular(5.0),
+                ), //make the icon also change its color
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _saveInterviewData() {
     String? key = _interviewRef!.push().key;
     String? name = _nameController.text;
@@ -415,7 +654,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     String? mobileNum = _contactNumberController.text;
     String? age = _ageController.text;
     String? gender = selectedGender == 1 ? "Male" : "Female";
-    String? dob = _dobController.text;
+    String? dob = "${selectedDate.toLocal()}".split(' ')[0];
     String? currentLpg = _currentLpgController.text;
     String? expectedLpg = _expectedLpgController.text;
     String? skills = _skillsController.text;
@@ -482,4 +721,5 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   void navigateToInterviewListPage(BuildContext? context) {
     Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));
   }
-}
+
+ }

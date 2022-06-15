@@ -183,7 +183,30 @@ class _LoginPageState extends State<LoginPage> {
                                 } else if (state is AuthenticationLoading) {
                                   return const Center(child: CircularProgressIndicator());
                                 } else if (state is AuthenticationSuccess) {
-                                  return Container();
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width - 20,
+                                    height: 40,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.indigo,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Wrap(
+                                        crossAxisAlignment: WrapCrossAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        children: const [
+                                          Text("Login", style: TextStyle(fontWeight: FontWeight.w500)),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        if (validateForm(context: context)) {
+                                          _authenticationBloc!.add(LoginButtonEvent(email: _username.text, password: _password.text));
+                                        }
+                                      },
+                                    ),
+                                  );
                                 } else if (state is AuthenticationFailure) {
                                   return SizedBox(
                                     width: MediaQuery.of(context).size.width - 20,
