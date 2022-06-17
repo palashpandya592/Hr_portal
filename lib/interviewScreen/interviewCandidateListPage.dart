@@ -45,57 +45,66 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        leading: const Icon(Icons.menu),
-        automaticallyImplyLeading: false,
-        actions: [
-          Center(
-              child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 3, 10, 3),
-            child: InkWell(
-              onTap: () {
-                _showDialog();
-              },
-              child: Text(
-                "Logout",
-                style:
-                    Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 13),
+    return WillPopScope(
+      onWillPop: () async {
+        bool? result = await _onBackPressed();
+        if(result == null){
+          result = false;
+        }
+        return result;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.indigo,
+          leading: const Icon(Icons.menu),
+          automaticallyImplyLeading: false,
+          actions: [
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 3, 10, 3),
+              child: InkWell(
+                onTap: () {
+                  _showDialog();
+                },
+                child: Text(
+                  "Logout",
+                  style:
+                      Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 13),
+                ),
               ),
-            ),
-          )),
-        ],
-        title: const Text("InterviewList Screen"),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(color: Colors.white),
-        child: BlocProvider(
-          create: (context) => InterviewBloc(InterviewLoading())..add(GetInterviewList()),
-          child: Builder(builder: (BuildContext context) {
-            _interviewBloc = BlocProvider.of<InterviewBloc>(context);
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: BlocBuilder<InterviewBloc, InterviewState>(builder: (context, state) {
-                  if (state is InterviewLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is InterViewSuccess) {
-                    exist = state.data;
-                    return getInterviewList();
-                  } else if (state is InterViewFailure) {
-                    return Text(state.error ?? "Something Went Wrong");
-                  } else {
-                    return Container();
-                  }
-                }),
-              ),
-            );
-          }),
+            )),
+          ],
+          title: const Text("InterviewList Screen"),
         ),
+        body: Container(
+          decoration: const BoxDecoration(color: Colors.white),
+          child: BlocProvider(
+            create: (context) => InterviewBloc(InterviewLoading())..add(GetInterviewList()),
+            child: Builder(builder: (BuildContext context) {
+              _interviewBloc = BlocProvider.of<InterviewBloc>(context);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: BlocBuilder<InterviewBloc, InterviewState>(builder: (context, state) {
+                    if (state is InterviewLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is InterViewSuccess) {
+                      exist = state.data;
+                      return getInterviewList();
+                    } else if (state is InterViewFailure) {
+                      return Text(state.error ?? "Something Went Wrong");
+                    } else {
+                      return Container();
+                    }
+                  }),
+                ),
+              );
+            }),
+          ),
+        ),
+        floatingActionButton: floatingButton(),
       ),
-      floatingActionButton: floatingButton(),
     );
   }
 
@@ -500,10 +509,12 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-          title: Center(child: const Text("Logout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: Colors.indigo),)),
+          title: Center(child: const Text("Logout",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: Colors.indigo),)),
           content: const Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 6, 0),
-            child: Text("Would to Like to Logout ?", style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+            child: Text("Would to Like to Logout ?",
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
           ),
           actions: <Widget>[
             Center(
@@ -536,6 +547,41 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
         );
       },
     );
+  }
+
+  Future<bool?> _onBackPressed() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+            title: const Center(
+              child: Text('Do you want to exit ?',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: Colors.indigo),),
+            ),
+            content:
+            Text('Are you sure You want to Exit,if Yes click on "Yes" to exist the Page',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+            actions: <Widget>[
+              TextButton(
+                child: Text('NO',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,color: Colors.indigo),),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              TextButton(
+                child: Text('YES',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,color: Colors.indigo),),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   void navigateToCreateCandidatePage(BuildContext? context) {
