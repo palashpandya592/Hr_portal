@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ReviewerDropDown extends StatefulWidget {
@@ -10,6 +9,7 @@ class ReviewerDropDown extends StatefulWidget {
 
 class _ReviewerDropDownState extends State<ReviewerDropDown> {
   String dropdownValue = 'One';
+
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(

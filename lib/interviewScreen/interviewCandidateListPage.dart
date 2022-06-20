@@ -18,7 +18,8 @@ class InterViewerCandidatePage extends StatefulWidget {
   const InterViewerCandidatePage({Key? key}) : super(key: key);
 
   @override
-  _InterViewerCandidatePageState createState() => _InterViewerCandidatePageState();
+  _InterViewerCandidatePageState createState() =>
+      _InterViewerCandidatePageState();
 }
 
 class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
@@ -38,7 +39,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
   @override
   void initState() {
-    isLoading =true;
+    isLoading = true;
     getDataFromFirebaseMethod(interviewKey);
     super.initState();
   }
@@ -48,7 +49,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
     return WillPopScope(
       onWillPop: () async {
         bool? result = await _onBackPressed();
-        if(result == null){
+        if (result == null) {
           result = false;
         }
         return result;
@@ -68,8 +69,10 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                 },
                 child: Text(
                   "Logout",
-                  style:
-                      Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w700, fontSize: 13),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Colors.white.withOpacity(0.7),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13),
                 ),
               ),
             )),
@@ -79,14 +82,16 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: BlocProvider(
-            create: (context) => InterviewBloc(InterviewLoading())..add(GetInterviewList()),
+            create: (context) =>
+                InterviewBloc(InterviewLoading())..add(GetInterviewList()),
             child: Builder(builder: (BuildContext context) {
               _interviewBloc = BlocProvider.of<InterviewBloc>(context);
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.center,
-                  child: BlocBuilder<InterviewBloc, InterviewState>(builder: (context, state) {
+                  child: BlocBuilder<InterviewBloc, InterviewState>(
+                      builder: (context, state) {
                     if (state is InterviewLoading) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is InterViewSuccess) {
@@ -110,7 +115,8 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
   Widget? floatingButton() {
     return FloatingActionButton(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       backgroundColor: Colors.indigo,
       child: const Icon(
         Icons.add,
@@ -132,7 +138,7 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
             Padding(
               padding: const EdgeInsets.only(right: 6),
               child: Container(
-                width: MediaQuery.of(context).size.width -90,
+                width: MediaQuery.of(context).size.width - 90,
                 height: 50,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
@@ -151,12 +157,15 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                           )),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width -150,
+                      width: MediaQuery.of(context).size.width - 150,
                       child: TextField(
                           controller: searchController,
                           decoration: InputDecoration(
                               hintText: "Search By Name...",
-                              hintStyle: Theme.of(context).textTheme.caption!.copyWith(color: Colors.grey),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(color: Colors.grey),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.only(bottom: 1)),
                           onChanged: onSearchTextChanged),
@@ -174,22 +183,26 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
           : Expanded(
               child: interviewList.isEmpty && interviewList == null
                   ? noDataWidget()
-                  : searchController.text.isEmpty || searchController.text == null
+                  : searchController.text.isEmpty ||
+                          searchController.text == null
                       ? ListView.builder(
                           itemCount: interviewList.length,
                           itemBuilder: (BuildContext context, int index) {
                             print("heeloooo${interviewList[index].toJson()}");
-                            return interviewListTile(bean: interviewList[index]);
+                            return interviewListTile(
+                                bean: interviewList[index]);
                           })
                       : searchResult.isEmpty && searchResult.length == 0
                           ? noDataWidget()
                           : ListView.builder(
                               itemCount: searchResult.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return searchResult.isEmpty ? const Text('No data') : interviewListTile(bean: searchResult[index]);
+                                return searchResult.isEmpty
+                                    ? const Text('No data')
+                                    : interviewListTile(
+                                        bean: searchResult[index]);
                               }),
             ),
-
     ]);
   }
 
@@ -224,57 +237,90 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                         )),
                     InkWell(
                         onTap: () {
-                          bean.status == "In-Review" || bean.teamLeadStatus == "In-Review"
+                          bean.status == "In-Review" ||
+                                  bean.teamLeadStatus == "In-Review"
                               ? showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return StatefulBuilder(builder: (context, setState) {
+                                    return StatefulBuilder(
+                                        builder: (context, setState) {
                                       return AlertDialog(
-                                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35))),
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(35))),
                                         title: Center(
                                             child: const Text(
                                           "Select Role",
-                                          style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.w600),
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.w600),
                                         )),
                                         content: Padding(
-                                          padding: EdgeInsets.fromLTRB(15, 0, 6, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(15, 0, 6, 0),
                                           child: Container(
                                             width: 300,
                                             height: 50,
-                                            decoration:
-                                                BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey)),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: Colors.grey)),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Expanded(
                                                   child: FormField<dynamic>(
-                                                    builder: (FormFieldState<dynamic> states) {
+                                                    builder:
+                                                        (FormFieldState<dynamic>
+                                                            states) {
                                                       return InputDecorator(
                                                         decoration: const InputDecoration(
-                                                            errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
-                                                            contentPadding: EdgeInsets.only(left: 10),
-                                                            border: InputBorder.none),
-                                                        child: DropdownButtonHideUnderline(
-                                                            child: DropdownButton<String>(
+                                                            errorStyle: TextStyle(
+                                                                color: Colors
+                                                                    .redAccent,
+                                                                fontSize: 16.0),
+                                                            contentPadding:
+                                                                EdgeInsets.only(
+                                                                    left: 10),
+                                                            border: InputBorder
+                                                                .none),
+                                                        child:
+                                                            DropdownButtonHideUnderline(
+                                                                child:
+                                                                    DropdownButton<
+                                                                        String>(
                                                           value: dropdownValue,
                                                           icon: const Icon(
-                                                            Icons.keyboard_arrow_down,
-                                                            color: Colors.indigo,
+                                                            Icons
+                                                                .keyboard_arrow_down,
+                                                            color:
+                                                                Colors.indigo,
                                                           ),
                                                           iconSize: 30,
                                                           isExpanded: true,
-                                                          onChanged: (String? newValue) {
+                                                          onChanged: (String?
+                                                              newValue) {
                                                             setState(() {
-                                                              dropdownValue = newValue!;
+                                                              dropdownValue =
+                                                                  newValue!;
                                                             });
-                                                            print("dropdownValue${dropdownValue}");
+                                                            print(
+                                                                "dropdownValue${dropdownValue}");
                                                           },
-                                                          items: roleItemList.map<DropdownMenuItem<String>>((String value) {
-                                                            return DropdownMenuItem<String>(
+                                                          items: roleItemList.map<
+                                                              DropdownMenuItem<
+                                                                  String>>((String
+                                                              value) {
+                                                            return DropdownMenuItem<
+                                                                String>(
                                                               value: value,
-                                                              child: Text(value),
+                                                              child:
+                                                                  Text(value),
                                                             );
                                                           }).toList(),
                                                           hint: Text("select"),
@@ -284,7 +330,8 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                                   ),
                                                 ),
                                                 const Padding(
-                                                  padding: EdgeInsets.only(right: 10.0, left: 0.0),
+                                                  padding: EdgeInsets.only(
+                                                      right: 10.0, left: 0.0),
                                                 ),
                                               ],
                                             ),
@@ -293,11 +340,19 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                         actions: <Widget>[
                                           Center(
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 FlatButton(
-                                                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                   color: Colors.grey,
                                                   textColor: Colors.white,
                                                   child: const Text('Cancel'),
@@ -307,7 +362,13 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                                 ),
                                                 SizedBox(width: 10),
                                                 FlatButton(
-                                                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                   color: Colors.indigo,
                                                   textColor: Colors.white,
                                                   child: const Text('Done'),
@@ -315,11 +376,22 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => CandidateReviewPage(
-                                                                  interviewBean: bean,
-                                                                  commonKey: bean.key ??"",
-                                                                  isHrRole: dropdownValue == "Hr" ? true : false,
-                                                                ))).then((value) => Navigator.pop(context));
+                                                            builder: (context) =>
+                                                                CandidateReviewPage(
+                                                                  interviewBean:
+                                                                      bean,
+                                                                  commonKey:
+                                                                      bean.key ??
+                                                                          "",
+                                                                  isHrRole:
+                                                                      dropdownValue ==
+                                                                              "Hr"
+                                                                          ? true
+                                                                          : false,
+                                                                ))).then(
+                                                        (value) =>
+                                                            Navigator.pop(
+                                                                context));
                                                   },
                                                 ),
                                               ],
@@ -335,12 +407,12 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                                   MaterialPageRoute(
                                       builder: (context) => CandidateReviewPage(
                                             interviewBean: bean,
-                                            commonKey: bean.key ??"",
+                                            commonKey: bean.key ?? "",
                                             isHrRole: false,
                                           ))).then((value) {
-                            getDataFromFirebaseMethod(interviewKey);
-                            setState(() {});
-                          });
+                                  getDataFromFirebaseMethod(interviewKey);
+                                  setState(() {});
+                                });
                         },
                         child: Column(
                           children: [
@@ -349,7 +421,11 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
-                                  .copyWith(color: Colors.indigoAccent.withOpacity(0.9), fontWeight: FontWeight.w600, fontSize: 13),
+                                  .copyWith(
+                                      color:
+                                          Colors.indigoAccent.withOpacity(0.9),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13),
                             ),
                             Container(
                               width: 38,
@@ -368,8 +444,10 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         detailsWidget(title: "Age", value: bean.age ?? ""),
-                        detailsWidget(title: "Gender", value: bean.gender ?? ""),
-                        detailsWidget(title: "Dep.", value: bean.department ?? ""),
+                        detailsWidget(
+                            title: "Gender", value: bean.gender ?? ""),
+                        detailsWidget(
+                            title: "Dep.", value: bean.department ?? ""),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -425,7 +503,10 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
             padding: const EdgeInsets.all(15.0),
             child: Text(
               "No Data Available",
-              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.indigo, fontSize: 20),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.indigo,
+                  fontSize: 20),
             ),
           ),
           SizedBox(
@@ -472,10 +553,12 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
             onSelected: (String index) {
               if (index == "SORT_BY_NAME") {
                 CircularProgressIndicator();
-                interviewList.sort((a, b) => a.department!.compareTo(b.department!));
+                interviewList
+                    .sort((a, b) => a.department!.compareTo(b.department!));
                 setState(() {});
               } else {
-                interviewList.sort((b, a) => a.teamLeadStatus!.compareTo(b.teamLeadStatus!));
+                interviewList.sort(
+                    (b, a) => a.teamLeadStatus!.compareTo(b.teamLeadStatus!));
                 setState(() {});
               }
             }),
@@ -488,14 +571,19 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
       children: [
         Text(
           "$title" " " ":",
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.grey.withOpacity(0.9), fontWeight: FontWeight.w600, fontSize: 15),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.grey.withOpacity(0.9),
+              fontWeight: FontWeight.w600,
+              fontSize: 15),
           textAlign: TextAlign.start,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(width: 8),
         Text(
           value!,
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: color ?? Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              color: color ?? Colors.black.withOpacity(0.7),
+              fontWeight: FontWeight.w500),
           textAlign: TextAlign.start,
           overflow: TextOverflow.clip,
         ),
@@ -508,9 +596,16 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-          title: Center(child: const Text("Logout",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: Colors.indigo),)),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          title: Center(
+              child: const Text(
+            "Logout",
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.indigo),
+          )),
           content: const Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 6, 0),
             child: Text("Would to Like to Logout ?",
@@ -522,17 +617,19 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FlatButton(
-                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     color: Colors.grey,
                     textColor: Colors.white,
                     child: const Text('No'),
                     onPressed: () {
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                   SizedBox(width: 10),
                   FlatButton(
-                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     color: Colors.indigo,
                     textColor: Colors.white,
                     child: const Text('Yes'),
@@ -554,26 +651,42 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
             title: const Center(
-              child: Text('Do you want to exit ?',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: Colors.indigo),),
+              child: Text(
+                'Do you want to exit ?',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.indigo),
+              ),
             ),
-            content:
-            Text('Are you sure You want to Exit,if Yes click on "Yes" to exist the Page',
+            content: Text(
+                'Are you sure You want to Exit,if Yes click on "Yes" to exist the Page',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
             actions: <Widget>[
               TextButton(
-                child: Text('NO',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,color: Colors.indigo),),
+                child: Text(
+                  'NO',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.indigo),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
               ),
               TextButton(
-                child: Text('YES',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,color: Colors.indigo),),
+                child: Text(
+                  'YES',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.indigo),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                   Navigator.of(context).pop(true);
@@ -585,22 +698,26 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
   }
 
   void navigateToCreateCandidatePage(BuildContext? context) {
-    Navigator.push(context!, MaterialPageRoute(builder: (context) =>
-    const CreateCandidateScreen())).then((value) {
+    Navigator.push(
+        context!,
+        MaterialPageRoute(
+            builder: (context) => const CreateCandidateScreen())).then((value) {
       getDataFromFirebaseMethod(interviewKey);
       setState(() {});
     });
   }
 
   void navigateToLogInPage(BuildContext? context) {
-    Navigator.push(context!, MaterialPageRoute(builder: (context) => const LoginPage()));
+    Navigator.push(
+        context!, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   void getDataFromFirebaseMethod(List<String>? interviewKey) {
     isLoading = true;
-    DatabaseReference _interviewRef = FirebaseDatabase.instance.reference().child("interview");
+    DatabaseReference _interviewRef =
+        FirebaseDatabase.instance.reference().child("interview");
     _interviewRef.once().then((DataSnapshot dataSnapshot) {
-    String newkey = _interviewRef.push().key;
+      String newkey = _interviewRef.push().key;
       searchResult.clear();
       interviewList.clear();
       var refKeys = dataSnapshot.value.keys;
@@ -608,33 +725,34 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
 
       for (var key in refKeys) {
         InterviewBean data = InterviewBean(
-          email: values[key]['email'],
-          name: values[key]['name'],
-          prohibitionPeriod: values[key]['prohibitionPeriod'],
-          skills: values[key]['skills'],
-          studies: values[key]['studies'],
-          gender: values[key]['gender'],
-          status: values[key]['status'],
-          age: values[key]['age'],
-          teamLeadStatus: values[key]['teamLeadStatus'],
-          currentLpg: values[key]['currentLpg'],
-          expectedLpg: values[key]['expectedLpg'],
-          department: values[key]['department'],
-          dob: values[key]['dob'],
-          experience: values[key]['experience'],
-          hrReview: values[key]['hrReview'],
-          mobileNum: values[key]['mobileNum'],
-          practicalReview: values[key]['practicalReview'],
-          technicalReview: values[key]['technicalReview'],
-          workPlaceOption: values[key]['workPlaceOption'],
-          key: values[key]['key']
-        );
+            email: values[key]['email'],
+            name: values[key]['name'],
+            prohibitionPeriod: values[key]['prohibitionPeriod'],
+            skills: values[key]['skills'],
+            studies: values[key]['studies'],
+            gender: values[key]['gender'],
+            status: values[key]['status'],
+            age: values[key]['age'],
+            teamLeadStatus: values[key]['teamLeadStatus'],
+            currentLpg: values[key]['currentLpg'],
+            expectedLpg: values[key]['expectedLpg'],
+            department: values[key]['department'],
+            dob: values[key]['dob'],
+            experience: values[key]['experience'],
+            hrReview: values[key]['hrReview'],
+            mobileNum: values[key]['mobileNum'],
+            practicalReview: values[key]['practicalReview'],
+            technicalReview: values[key]['technicalReview'],
+            workPlaceOption: values[key]['workPlaceOption'],
+            hrRating: values[key]['hrRating'],
+            teamLeadRating: values[key]['teamLeadRating'],
+            key: values[key]['key']);
         if (data != null) {
           setState(() {
             isLoading = false;
             interviewList.add(data);
 
-            print("333${ dataSnapshot.value.keys}");
+            print("333${dataSnapshot.value.keys}");
             print(newkey);
           });
         }
@@ -651,11 +769,10 @@ class _InterViewerCandidatePageState extends State<InterViewerCandidatePage> {
     }
     interviewList.forEach((userDetail) {
       if (userDetail.name!.contains(text.trim()) ||
-          userDetail.name!.toLowerCase().contains(text.toLowerCase()) || userDetail.name!.contains(text))
-        searchResult.add(userDetail);
+          userDetail.name!.toLowerCase().contains(text.toLowerCase()) ||
+          userDetail.name!.contains(text)) searchResult.add(userDetail);
     });
 
     setState(() {});
   }
-
-  }
+}

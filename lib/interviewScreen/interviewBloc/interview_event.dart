@@ -13,7 +13,6 @@ class LoadInterviewList extends InterviewEvent {
 }
 
 class GetInterviewList extends InterviewEvent {
-
   @override
   List<Object> get props => [];
 }

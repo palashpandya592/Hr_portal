@@ -10,7 +10,8 @@ class UserRepository {
   Future<User> createUser(String? email, String? password) async {
     var result;
     try {
-      result = await firebaseAuth!.createUserWithEmailAndPassword(email: email!, password: password!);
+      result = await firebaseAuth!
+          .createUserWithEmailAndPassword(email: email!, password: password!);
       return result.user!;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -31,7 +32,8 @@ class UserRepository {
   Future<User> signInUser(String? email, String? password) async {
     var result;
     try {
-      result = await firebaseAuth!.signInWithEmailAndPassword(email: email!, password: password!);
+      result = await firebaseAuth!
+          .signInWithEmailAndPassword(email: email!, password: password!);
       return result.user!;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

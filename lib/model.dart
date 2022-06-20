@@ -16,13 +16,17 @@ class InterviewBean {
   String? currentLpg;
   String? department;
   String? practicalReview;
+  String? hrRating;
+  String? teamLeadRating;
   String? status;
   String? teamLeadStatus;
   String? workPlaceOption;
 
   InterviewBean(
       {this.key,
-       this.name,
+      this.name,
+      this.teamLeadRating,
+      this.hrRating,
       this.email,
       this.studies,
       this.experience,
@@ -53,12 +57,14 @@ class InterviewBean {
     dob = json["dob"] ?? "";
     status = json["status"] ?? "";
     skills = json["skills"] ?? "";
+    hrRating = json["hrRating"] ?? "";
+    teamLeadRating = json["teamLeadRating"] ?? "";
     prohibitionPeriod = json["prohibitionPeriod"] ?? "";
     mobileNum = json["mobileNum"] ?? "";
     hrReview = json["hrReview"] ?? "";
     gender = json["gender"] ?? "";
     expectedLpg = json["expectedLpg"] ?? "";
-    department =json["department"]??"";
+    department = json["department"] ?? "";
     practicalReview = json['practicalReview'] ?? "";
     teamLeadStatus = json['teamLeadStatus'] ?? "";
     currentLpg = json["currentLpg"] ?? "";
@@ -76,10 +82,12 @@ class InterviewBean {
     map["studies"] = studies;
     map["experience"] = experience;
     map["technicalReview"] = technicalReview;
-    map["department"]= department;
+    map["department"] = department;
     map["skills"] = skills;
     map["prohibitionPeriod"] = prohibitionPeriod;
     map["practicalReview"] = practicalReview;
+    map["hrRating"] = hrRating;
+    map["teamLeadRating"] = teamLeadRating;
     map["mobileNum"] = mobileNum;
     map["teamLeadStatus"] = teamLeadStatus;
     map["gender"] = gender;
@@ -90,4 +98,3 @@ class InterviewBean {
     return map;
   }
 }
-

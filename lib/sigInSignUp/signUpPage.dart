@@ -34,17 +34,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 Container(
                     constraints: BoxConstraints.expand(height: 200.0),
                     decoration: BoxDecoration(color: Colors.white),
-                    child: Image.asset("assets/images/sign_up.jpg",
+                    child: Image.asset(
+                      "assets/images/sign_up.jpg",
                       fit: BoxFit.cover,
                     )),
                 const SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8,0,8,13),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text("Welcome Back..", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,color: Colors.grey)),
-                      Text("Hr-Portal SignUp", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                      Text("Welcome Back..",
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey)),
+                      Text("Hr-Portal SignUp",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
                     ],
                   ),
                 ),
@@ -67,22 +74,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'UserName',
                       border: const OutlineInputBorder(),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.person,color: Colors.indigo), //make the icon also change its color
+                      prefixIcon: Icon(Icons.person,
+                          color: Colors
+                              .indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -96,7 +108,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     textAlign: TextAlign.left,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
-                      if (value!.length > 4 && value.contains('@') && value.endsWith('.com')) {
+                      if (value!.length > 4 &&
+                          value.contains('@') &&
+                          value.endsWith('.com')) {
                         return null;
                       } else {
                         return 'Enter Valid EmailId';
@@ -107,22 +121,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Email',
                       border: const OutlineInputBorder(),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.person,color: Colors.indigo), //make the icon also change its color
+                      prefixIcon: Icon(Icons.person,
+                          color: Colors
+                              .indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -146,22 +165,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Password',
                       border: const OutlineInputBorder(),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      prefixIcon: Icon(Icons.lock,color: Colors.indigo), //make the icon also change its color
+                      prefixIcon: Icon(Icons.lock,
+                          color: Colors
+                              .indigo), //make the icon also change its color
                     ),
                   ),
                 ),
@@ -185,15 +209,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Confirm Password',
                       border: const OutlineInputBorder(),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(color: Colors.black,width: 1),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1),
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       errorBorder: OutlineInputBorder(
@@ -201,26 +228,33 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(40.0),
                       ),
 
-                      prefixIcon: Icon(Icons.lock,color: Colors.indigo,), //make the icon also change its color
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.indigo,
+                      ), //make the icon also change its color
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 BlocProvider(
-                  create: (context) => AuthenticationBloc(AuthenticationInitial()),
+                  create: (context) =>
+                      AuthenticationBloc(AuthenticationInitial()),
                   child: Builder(builder: (BuildContext context) {
-                    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+                    _authenticationBloc =
+                        BlocProvider.of<AuthenticationBloc>(context);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.center,
-                        child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                        child: BlocListener<AuthenticationBloc,
+                            AuthenticationState>(
                           listener: (context, state) {
                             if (state is AuthenticationSuccess) {
                               _showDialog();
                             }
                           },
-                          child: BlocBuilder<AuthenticationBloc, AuthenticationState>(builder: (context, state) {
+                          child: BlocBuilder<AuthenticationBloc,
+                              AuthenticationState>(builder: (context, state) {
                             if (state is AuthenticationInitial) {
                               return SizedBox(
                                 width: MediaQuery.of(context).size.width - 20,
@@ -233,21 +267,28 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                   ),
                                   child: Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     alignment: WrapAlignment.center,
                                     children: const [
-                                      Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text("Sign Up",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500)),
                                     ],
                                   ),
                                   onPressed: () {
                                     if (validateForm(context: context)) {
-                                      _authenticationBloc!.add(SignUpButtonEvent(email: _emailController.text, password: _password.text));
+                                      _authenticationBloc!.add(
+                                          SignUpButtonEvent(
+                                              email: _emailController.text,
+                                              password: _password.text));
                                     }
                                   },
                                 ),
                               );
                             } else if (state is AuthenticationLoading) {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             } else if (state is AuthenticationSuccess) {
                               return Container();
                             } else if (state is AuthenticationFailure) {
@@ -262,15 +303,21 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                   ),
                                   child: Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     alignment: WrapAlignment.center,
                                     children: const [
-                                      Text("Sign Up", style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text("Sign Up",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500)),
                                     ],
                                   ),
                                   onPressed: () {
                                     if (validateForm(context: context)) {
-                                      _authenticationBloc!.add(SignUpButtonEvent(email: _emailController.text, password: _password.text));
+                                      _authenticationBloc!.add(
+                                          SignUpButtonEvent(
+                                              email: _emailController.text,
+                                              password: _password.text));
                                     }
                                   },
                                 ),
@@ -291,7 +338,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   children: [
                     const Text("Do You Already have a Account?"),
                     TextButton(
-                        child: const Text('LogIn',style: TextStyle(color: Colors.indigo)),
+                        child: const Text('LogIn',
+                            style: TextStyle(color: Colors.indigo)),
                         onPressed: () {
                           navigateToLogInPage(context: context);
                         })
@@ -310,16 +358,20 @@ class _SignUpPageState extends State<SignUpPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-          title: const Icon(Icons.check_circle_outline_rounded, size: 70, color: Colors.green),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          title: const Icon(Icons.check_circle_outline_rounded,
+              size: 70, color: Colors.green),
           content: const Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 6, 0),
-            child: Text("SignUp Successfully...", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+            child: Text("SignUp Successfully...",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           ),
           actions: <Widget>[
             Center(
               child: FlatButton(
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 color: Colors.green,
                 textColor: Colors.white,
                 child: const Text('Done'),
@@ -336,13 +388,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool validateForm({required BuildContext context}) {
     if (_emailController.text.toString() == "") {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter Email")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter Email")));
       return false;
     } else if (_name.text.toString() == "") {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter UserName")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter UserName")));
       return false;
     } else if (_password.text.toString() == "") {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter Conform Password")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Conform Password")));
       return false;
     } else {
       return true;
@@ -350,6 +405,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void navigateToLogInPage({BuildContext? context}) {
-    Navigator.push(context!, MaterialPageRoute(builder: (context) => const MyApp()));
+    Navigator.push(
+        context!, MaterialPageRoute(builder: (context) => const MyApp()));
   }
 }

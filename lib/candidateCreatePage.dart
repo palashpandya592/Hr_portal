@@ -18,7 +18,6 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   int selectedWorkPlace = 1;
   final _nameController = TextEditingController();
   final _ageController = TextEditingController();
-  final _dobController = TextEditingController();
   final _educationController = TextEditingController();
   final _skillsController = TextEditingController();
   final _currentLpgController = TextEditingController();
@@ -71,18 +70,22 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         controller: _ageController,
                         hintText: "enter Age",
                         keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width ),
+                        width: MediaQuery.of(context).size.width),
                     textDatePickerWidget(
                         context: context,
-                        width: MediaQuery.of(context).size.width
-                    ),
+                        width: MediaQuery.of(context).size.width),
                     Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             "Gender :",
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontWeight: FontWeight.w700),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -94,7 +97,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
-                                    .copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.7),
+                                        fontWeight: FontWeight.w500)),
                             leading: Radio(
                               value: 1,
                               groupValue: selectedGender,
@@ -114,7 +119,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
-                                    .copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500)),
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.7),
+                                        fontWeight: FontWeight.w500)),
                             leading: Radio(
                               value: 2,
                               groupValue: selectedGender,
@@ -133,11 +140,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+                          padding: const EdgeInsets.only(
+                              left: 6.0, right: 5.0, bottom: 2.0),
                           child: SizedBox(
                             width: 280,
-                            child: Text("Email Id",
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                            child: Text(
+                              "Email Id",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      color: Colors.black.withOpacity(0.7),
+                                      fontWeight: FontWeight.w700),
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -150,9 +164,12 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                             maxLines: 1,
                             controller: _emailController,
                             textAlign: TextAlign.left,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              if (value!.length > 4 && value.contains('@') && value.endsWith('.com')) {
+                              if (value!.length > 4 &&
+                                  value.contains('@') &&
+                                  value.endsWith('.com')) {
                                 return null;
                               } else {
                                 return 'Enter Valid EmailId';
@@ -162,15 +179,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                               hintText: 'EmailId',
                               border: const OutlineInputBorder(),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1.5),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               errorBorder: OutlineInputBorder(
@@ -186,11 +206,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+                          padding: const EdgeInsets.only(
+                              left: 6.0, right: 5.0, bottom: 2.0),
                           child: SizedBox(
                             width: 280,
-                            child: Text("Contact Number",
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                            child: Text(
+                              "Contact Number",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      color: Colors.black.withOpacity(0.7),
+                                      fontWeight: FontWeight.w700),
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -203,16 +230,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                             maxLines: 1,
                             controller: _contactNumberController,
                             textAlign: TextAlign.left,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9]+')),
                             ],
                             validator: (value) {
-                              String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-                              RegExp regExp = new RegExp(patttern);
-                              if (value!.length != 10)
+                              String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                              RegExp regExp = RegExp(pattern);
+                              if (value!.length != 10) {
                                 return 'Please enter valid mobile number';
-                              else if (!regExp.hasMatch(value)) {
+                              } else if (!regExp.hasMatch(value)) {
                                 return 'Please enter valid mobile number';
                               } else
                                 return null;
@@ -221,15 +250,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                               hintText: 'Contact Number',
                               border: const OutlineInputBorder(),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1.5),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.grey,width: 1),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                               errorBorder: OutlineInputBorder(
@@ -264,7 +296,12 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             "Work Option:",
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontWeight: FontWeight.w700),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -335,7 +372,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                         title: "Notice Period Duration(days)",
                         hintText: "Enter Notice Period",
                         keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width ),
+                        width: MediaQuery.of(context).size.width),
                     const SizedBox(
                       height: 10,
                     ),
@@ -355,7 +392,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                               crossAxisAlignment: WrapCrossAlignment.center,
                               alignment: WrapAlignment.center,
                               children: const [
-                                Text("Submit", style: TextStyle(fontWeight: FontWeight.w500)),
+                                Text("Submit",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500)),
                               ],
                             ),
                             onPressed: () {
@@ -376,18 +415,18 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
-  Widget textFieldWidget({
-    TextEditingController? controller,
-    TextInputType? keyboardType,
-    String? hintText,
-    double? width,
-    double? height,
-    bool? isEmail = false,
-    bool isMandatory = false,
-    bool? isNumeric = false,
-    bool? maxLines = false,
-    String? title,
-    String? imageUrl}) {
+  Widget textFieldWidget(
+      {TextEditingController? controller,
+      TextInputType? keyboardType,
+      String? hintText,
+      double? width,
+      double? height,
+      bool? isEmail = false,
+      bool isMandatory = false,
+      bool? isNumeric = false,
+      bool? maxLines = false,
+      String? title,
+      String? imageUrl}) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: SizedBox(
@@ -397,12 +436,15 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+              padding:
+                  const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
               child: SizedBox(
                 width: 280,
                 child: Text(
                   title!,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                      fontWeight: FontWeight.w700),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -416,9 +458,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                   maxLines: maxLines == false ? 1 : 4,
                   controller: controller,
                   inputFormatters: <TextInputFormatter>[
-                    isNumeric == true ? FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) : FilteringTextInputFormatter.singleLineFormatter,
+                    isNumeric == true
+                        ? FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                        : FilteringTextInputFormatter.singleLineFormatter,
                   ],
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                      fontWeight: FontWeight.w500),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -430,8 +476,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                   decoration: InputDecoration(
                     hintText: hintText,
                     hintStyle: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Colors.grey.withOpacity(0.7),
-                    ),
+                          color: Colors.grey.withOpacity(0.7),
+                        ),
                     border: const OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.grey),
@@ -475,42 +521,68 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   }
 
   bool validateForm(BuildContext context) {
-    if (_nameController.text.isEmpty && _ageController.text.isEmpty && _dobController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+    if (_nameController.text.isEmpty && _ageController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter Name")));
       return false;
-    } else if (_emailController.text.isEmpty && _contactNumberController.text.isEmpty && _educationController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+    } else if (_ageController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter Age")));
       return false;
-    } else if (_skillsController.text.isEmpty && _expirenceController.text.isEmpty && _departmentController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+    } else if (_emailController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter EmailId")));
+      return false;
+    } else if (_contactNumberController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter  ContactNumber")));
+      return false;
+    } else if (_skillsController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Enter Skills")));
+      return false;
+    } else if (_educationController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Educational Details")));
+      return false;
+    } else if (_expirenceController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Experience")));
+      return false;
+    } else if (_departmentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Department Details")));
       return false;
     } else if (_currentLpgController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Current LPG")));
       return false;
     } else if (_expectedLpgController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter Excepted LPG")));
       return false;
     } else if (_noticePeriodController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter complete Information to Proceed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please Enter NoticePeriod Duration")));
       return false;
     } else {
       return true;
     }
   }
 
-  Widget textDatePickerWidget({
-    TextEditingController? controller,
-    TextInputType? keyboardType,
-    BuildContext? context,
-    String? hintText,
-    double? width,
-    double? height,
-    bool? isEmail = false,
-    bool isMandatory = false,
-    bool? isNumeric = false,
-    bool? maxLines = false,
-    String? title,
-    String? imageUrl}) {
+  Widget textDatePickerWidget(
+      {TextEditingController? controller,
+      TextInputType? keyboardType,
+      BuildContext? context,
+      String? hintText,
+      double? width,
+      double? height,
+      bool? isEmail = false,
+      bool isMandatory = false,
+      bool? isNumeric = false,
+      bool? maxLines = false,
+      String? title,
+      String? imageUrl}) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: SizedBox(
@@ -520,12 +592,15 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
+              padding:
+                  const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
               child: SizedBox(
                 width: 280,
                 child: Text(
                   "Date Of Birth",
-                  style: Theme.of(context!).textTheme.bodyText1!.copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+                  style: Theme.of(context!).textTheme.bodyText1!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                      fontWeight: FontWeight.w700),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -536,17 +611,20 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
               child: SizedBox(
                 width: width ?? 200,
                 child: TextFormField(
-                  style: Theme.of(context).textTheme.bodyText2!.
-                  copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                      fontWeight: FontWeight.w500),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                    showCursor: false,
-                    onTap: (){
+                  showCursor: false,
+                  onTap: () {
                     _selectDate(context);
                   },
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 10),
-                    hintText: selectedDate !=null? "${selectedDate.toLocal()}".split(' ')[0] :"Select Date",
+                    contentPadding: const EdgeInsets.only(left: 10),
+                    hintText: selectedDate != null
+                        ? "${selectedDate.toLocal()}".split(' ')[0]
+                        : "Select Date",
                     hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
                           color: Colors.black.withOpacity(0.7),
                         ),
@@ -563,7 +641,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                       borderSide: const BorderSide(color: Colors.red),
                       borderRadius: BorderRadius.circular(5.0),
                     ),
-                    suffixIcon: Icon(Icons.calendar_today_sharp,color: Colors.black,size: 17),//make the icon also change its color
+                    suffixIcon: const Icon(Icons.calendar_today_sharp,
+                        color: Colors.black,
+                        size: 17), //make the icon also change its color
                   ),
                   onChanged: (val) {
                     setState(() {});
@@ -578,11 +658,13 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     );
   }
 
-
-  Widget numericTextFieldWidget({TextEditingController? controller,
-    TextInputType? keyboardType,String? title,
-    String? hintText,
-    double? width, double? height}){
+  Widget numericTextFieldWidget(
+      {TextEditingController? controller,
+      TextInputType? keyboardType,
+      String? title,
+      String? hintText,
+      double? width,
+      double? height}) {
     return SizedBox(
       width: width ?? 200,
       child: Column(
@@ -593,9 +675,11 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
             padding: const EdgeInsets.only(left: 6.0, right: 5.0, bottom: 2.0),
             child: SizedBox(
               width: 280,
-              child: Text(title!,
-                style: Theme.of(context).textTheme.bodyText1!.
-                copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w700),
+              child: Text(
+                title!,
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    color: Colors.black.withOpacity(0.7),
+                    fontWeight: FontWeight.w700),
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -623,15 +707,15 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
                 hintText: hintText,
                 border: const OutlineInputBorder(),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.red,width: 1.5),
+                  borderSide: const BorderSide(color: Colors.red, width: 1.5),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey,width: 1),
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey,width: 1),
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 errorBorder: OutlineInputBorder(
@@ -662,7 +746,8 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
     String? status = "In-Review";
     String? teamLeadStatus = "In-Review";
     String? department = _departmentController.text;
-    String? workPlaceOption = selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
+    String? workPlaceOption =
+        selectedWorkPlace == 1 ? " WorkFormOffice" : "WorkFormHome";
 
     Map<String, String> interview = {
       'key': key,
@@ -682,10 +767,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       'department': department,
       'workPlaceOption': workPlaceOption,
     };
-    // _interviewRef!.push().set(interview);
     _interviewRef!.child(key).set(interview);
 
-    print("interviewwwwwwwwwww${interview}");
+    print("Posted INTERVIEW DATA${interview}");
     setState(() {});
   }
 
@@ -694,16 +778,20 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-          title: const Icon(Icons.check_circle_outline_rounded, size: 70, color: Colors.green),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          title: const Icon(Icons.check_circle_outline_rounded,
+              size: 70, color: Colors.green),
           content: const Padding(
             padding: EdgeInsets.only(left: 10),
-            child: Text("Registered Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            child: Text("Registered Successfully",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           ),
           actions: <Widget>[
             Center(
               child: FlatButton(
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 color: Colors.indigo,
                 textColor: Colors.white,
                 child: const Text('Done'),
@@ -719,7 +807,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   }
 
   void navigateToInterviewListPage(BuildContext? context) {
-    Navigator.push(context!, MaterialPageRoute(builder: (context) => const InterViewerCandidatePage()));
+    Navigator.push(
+        context!,
+        MaterialPageRoute(
+            builder: (context) => const InterViewerCandidatePage()));
   }
-
- }
+}
